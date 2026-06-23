@@ -114,13 +114,43 @@ Cardinal: $\#P(A) = 2^{\#(A)}$. Siempre $A \in P(A)$ y $\varnothing \in P(A)$.`,
     },
     {
       id: "alg-u03-010",
-      tipo: "ejercicio",
-      dificultad: "media",
+      tipo: "practica",
       tags: ["conjunto-partes"],
       fuente: ["algebra/unidad-03-conjuntos/apuntes/conjuntos.pdf"],
-      pregunta: String.raw`Dado $A = \{1, 2, 3\}$, escribí $P(A)$ y su cardinal.`,
-      respuesta: String.raw`$$P(A) = \{\varnothing,\ \{1\},\ \{2\},\ \{3\},\ \{1,2\},\ \{1,3\},\ \{2,3\},\ \{1,2,3\}\}$$
-$\#P(A) = 2^{3} = 8$.`,
+      concepto: String.raw`Conjunto de partes $P(A)$ (todos los subconjuntos; $\#P(A)=2^{\#(A)}$). Sube por ejes: más elementos (1→2→3) → cardinal con $|A|$ grande → elementos que son conjuntos (la trampa de $\in$ vs $\subseteq$).`,
+      variantes: [
+        // N1 — 1 elemento
+        [
+          { pregunta: String.raw`Escribí $P(A)$ y su cardinal para $A=\{5\}$.`, respuesta: String.raw`$$P(A)=\{\varnothing,\ \{5\}\} \qquad \#P(A)=2^{1}=2$$`, pista: "Siempre están ∅ y el propio A; en total 2^(#A) subconjuntos." },
+          { pregunta: String.raw`Escribí $P(A)$ y su cardinal para $A=\{7\}$.`, respuesta: String.raw`$$P(A)=\{\varnothing,\ \{7\}\} \qquad \#P(A)=2$$` },
+        ],
+        // N2 — 2 elementos
+        [
+          { pregunta: String.raw`Escribí $P(A)$ y su cardinal para $A=\{1,2\}$.`, respuesta: String.raw`$$P(A)=\{\varnothing,\ \{1\},\ \{2\},\ \{1,2\}\} \qquad \#P(A)=2^{2}=4$$` },
+          { pregunta: String.raw`Escribí $P(A)$ y su cardinal para $A=\{3,5\}$.`, respuesta: String.raw`$$P(A)=\{\varnothing,\ \{3\},\ \{5\},\ \{3,5\}\} \qquad \#P(A)=4$$` },
+        ],
+        // N3 — 3 elementos
+        [
+          { pregunta: String.raw`Escribí $P(A)$ y su cardinal para $A=\{1,2,3\}$.`, respuesta: String.raw`$$P(A)=\{\varnothing,\{1\},\{2\},\{3\},\{1,2\},\{1,3\},\{2,3\},\{1,2,3\}\}$$
+$\#P(A)=2^{3}=8$.` },
+          { pregunta: String.raw`Escribí $P(A)$ y su cardinal para $A=\{a,b,c\}$.`, respuesta: String.raw`$$P(A)=\{\varnothing,\{a\},\{b\},\{c\},\{a,b\},\{a,c\},\{b,c\},\{a,b,c\}\}$$
+$\#P(A)=8$.` },
+        ],
+        // N4 — solo el cardinal (|A| grande)
+        [
+          { pregunta: String.raw`¿Cuántos subconjuntos tiene $A=\{1,2,3,4\}$? (es decir $\#P(A)$)`, respuesta: String.raw`$$\#P(A)=2^{4}=16$$
+(listarlos sería: 1 vacío + 4 de un elemento + 6 de dos + 4 de tres + 1 de cuatro.)` },
+          { pregunta: String.raw`¿Cuántos subconjuntos tiene un conjunto de 5 elementos?`, respuesta: String.raw`$$\#P(A)=2^{5}=32$$` },
+        ],
+        // N5 — elementos que son conjuntos (∈ vs ⊆)
+        [
+          { pregunta: String.raw`Escribí $P(A)$ para $A=\{1,\{2\},3\}$ (ojo: $\{2\}$ es **un** elemento).`, respuesta: String.raw`$A$ tiene 3 elementos: $1$, $\{2\}$ y $3$. Entonces $\#P(A)=8$:
+$$P(A)=\{\varnothing,\{1\},\{\{2\}\},\{3\},\{1,\{2\}\},\{1,3\},\{\{2\},3\},\{1,\{2\},3\}\}$$` },
+          { pregunta: String.raw`Escribí $P(A)$ para $A=\{\varnothing,\ 1\}$.`, respuesta: String.raw`$A$ tiene 2 elementos: $\varnothing$ y $1$. $\#P(A)=4$:
+$$P(A)=\{\varnothing,\ \{\varnothing\},\ \{1\},\ \{\varnothing,1\}\}$$
+Ojo: $\varnothing$ (subconjunto vacío) y $\{\varnothing\}$ (subconjunto que contiene al elemento $\varnothing$) son distintos.` },
+        ],
+      ],
     },
 
     /* ── Operaciones ───────────────────────────── */
@@ -169,17 +199,45 @@ $\varnothing^c = R$ ; $\;R^c = \varnothing$ ; $\;(A^c)^c = A$ (**involución** /
     },
     {
       id: "alg-u03-015",
-      tipo: "ejercicio",
-      dificultad: "dificil",
-      tags: ["operaciones", "parcial"],
-      fuente: ["algebra/examenes/parcial-1.md"],
-      pregunta: String.raw`Sean $U = \{1,\dots,10\}$, $A = \{2,4,6,8,10\}$, $B = \{1,2,3,4,5\}$, $C = \{1,3,5,7,9\}$. Hallá $B \cap A$, $\;B - U$, $\;C^c$, $\;A^c \cap B^c$.`,
-      respuesta: String.raw`- $B \cap A = \{2, 4\}$
-- $B - U = \varnothing$ (todo $B$ está en $U$)
-- $C^c = U - C = \{2, 4, 6, 8, 10\}$
-- $A^c = \{1,3,5,7,9\}$, $\;B^c = \{6,7,8,9,10\}$ $\Rightarrow A^c \cap B^c = \{7, 9\}$
-
-Por De Morgan, $A^c \cap B^c = (A \cup B)^c$.`,
+      tipo: "practica",
+      tags: ["operaciones", "conjuntos-dados"],
+      fuente: ["algebra/examenes/parcial-1.md", "algebra/unidad-03-conjuntos/apuntes/conjuntos.pdf"],
+      concepto: String.raw`Operar conjuntos dados por extensión. Sube por ejes: $\cap/\cup$ → diferencia y complemento → combinación (De Morgan numérico) → diferencia simétrica → expresión con varios operadores.`,
+      variantes: [
+        // N1 — intersección y unión
+        [
+          { pregunta: String.raw`Con $A=\{1,2,3,4\}$ y $B=\{3,4,5,6\}$, hallá $A\cap B$ y $A\cup B$.`, respuesta: String.raw`$$A\cap B = \{3,4\} \qquad A\cup B = \{1,2,3,4,5,6\}$$`, pista: "∩ = elementos en ambos; ∪ = en al menos uno (sin repetir)." },
+          { pregunta: String.raw`Con $A=\{2,4,6\}$ y $B=\{4,6,8\}$, hallá $A\cap B$ y $A\cup B$.`, respuesta: String.raw`$$A\cap B = \{4,6\} \qquad A\cup B = \{2,4,6,8\}$$` },
+        ],
+        // N2 — diferencia y complemento
+        [
+          { pregunta: String.raw`Con $U=\{1,\dots,8\}$, $A=\{2,4,6,8\}$, $B=\{1,2,3,4\}$, hallá $A-B$ y $A^c$.`, respuesta: String.raw`$$A-B = \{6,8\} \qquad A^c = U-A = \{1,3,5,7\}$$` },
+          { pregunta: String.raw`Con $U=\{1,\dots,6\}$, $A=\{1,3,5\}$, $B=\{1,2,3\}$, hallá $A-B$ y $A^c$.`, respuesta: String.raw`$$A-B = \{5\} \qquad A^c = \{2,4,6\}$$` },
+        ],
+        // N3 — combinación (De Morgan numérico)
+        [
+          { pregunta: String.raw`Con $U=\{1,\dots,10\}$, $A=\{2,4,6,8,10\}$, $B=\{1,2,3,4,5\}$, $C=\{1,3,5,7,9\}$, hallá $B\cap A$, $B-U$, $C^c$ y $A^c\cap B^c$.`, respuesta: String.raw`- $B\cap A = \{2,4\}$
+- $B-U = \varnothing$ (todo $B$ está en $U$)
+- $C^c = \{2,4,6,8,10\}$
+- $A^c=\{1,3,5,7,9\}$, $B^c=\{6,7,8,9,10\}$ → $A^c\cap B^c = \{7,9\}$ (que es $(A\cup B)^c$).` },
+          { pregunta: String.raw`Con $U=\{1,\dots,8\}$, $A=\{1,2,3,4\}$, $B=\{3,4,5,6\}$, hallá $A^c\cap B^c$ y verificá con De Morgan.`, respuesta: String.raw`$A^c=\{5,6,7,8\}$, $B^c=\{1,2,7,8\}$ → $A^c\cap B^c=\{7,8\}$.
+Por De Morgan $=(A\cup B)^c$: $A\cup B=\{1,2,3,4,5,6\}$, su complemento $=\{7,8\}$ ✓.` },
+        ],
+        // N4 — diferencia simétrica
+        [
+          { pregunta: String.raw`Con $A=\{1,2,3,4\}$ y $B=\{3,4,5,6\}$, hallá $A\triangle B$.`, respuesta: String.raw`$A\triangle B = (A-B)\cup(B-A) = \{1,2\}\cup\{5,6\}$:
+$$A\triangle B = \{1,2,5,6\}$$` },
+          { pregunta: String.raw`Con $A=\{1,2,3\}$ y $B=\{2,3,4,5\}$, hallá $A\triangle B$.`, respuesta: String.raw`$A-B=\{1\}$, $B-A=\{4,5\}$:
+$$A\triangle B = \{1,4,5\}$$` },
+        ],
+        // N5 — expresión con varios operadores
+        [
+          { pregunta: String.raw`Con $U=\{1,\dots,10\}$, $A=\{1,2,3,4,5\}$, $B=\{4,5,6,7\}$, $C=\{2,4,6,8\}$, hallá $(A\cup B)\cap C^c$.`, respuesta: String.raw`$A\cup B=\{1,2,3,4,5,6,7\}$; $C^c=\{1,3,5,7,9,10\}$:
+$$(A\cup B)\cap C^c = \{1,3,5,7\}$$` },
+          { pregunta: String.raw`Con los mismos $U$, $A$, $B$, $C$, hallá $(A\cap B)\cup C$.`, respuesta: String.raw`$A\cap B=\{4,5\}$:
+$$(A\cap B)\cup C = \{4,5\}\cup\{2,4,6,8\} = \{2,4,5,6,8\}$$` },
+        ],
+      ],
     },
 
     /* ── Propiedades / leyes (FINAL) ───────────── */
@@ -266,12 +324,39 @@ Las **propiedades / leyes de conjuntos NO** van en hoja permitida: se rinden **d
     },
     {
       id: "alg-u03-023",
-      tipo: "ejercicio",
-      dificultad: "dificil",
+      tipo: "practica",
       tags: ["simplificacion", "leyes", "final"],
-      fuente: ["algebra/cheatsheets/unidad-03-conjuntos.html"],
-      pregunta: String.raw`Simplificá $(A \cap B) \cup (A \cap B^c)$ justificando cada paso.`,
-      respuesta: String.raw`$$\begin{aligned} (A \cap B) \cup (A \cap B^c) &= A \cap (B \cup B^c) \quad\text{(distributiva, factor } A) \\ &= A \cap R \quad\text{(inverso: } B \cup B^c = R) \\ &= A \quad\text{(neutro de } \cap) \end{aligned}$$`,
+      fuente: ["algebra/cheatsheets/unidad-03-conjuntos.html", "algebra/unidad-03-conjuntos/apuntes/conjuntos.pdf"],
+      concepto: String.raw`Simplificar/transformar expresiones de conjuntos con las leyes (absorción, distributiva, inverso/neutro, De Morgan; resta $A-B=A\cap B^c$). Sube por ejes: una ley → varias → con complemento → con resta → demostrar una igualdad.`,
+      variantes: [
+        // N1 — una ley (absorción)
+        [
+          { pregunta: String.raw`Simplificá $A \cap (A \cup B)$.`, respuesta: String.raw`Por **absorción**:
+$$A \cap (A \cup B) = A$$`, pista: "Fijate si una parte absorbe a la otra (absorción)." },
+          { pregunta: String.raw`Simplificá $A \cup (A \cap B)$.`, respuesta: String.raw`**Absorción**:
+$$A \cup (A \cap B) = A$$` },
+        ],
+        // N2 — distributiva + inverso + neutro
+        [
+          { pregunta: String.raw`Simplificá $(A \cap B) \cup (A \cap B^c)$.`, respuesta: String.raw`$$\begin{aligned} (A\cap B)\cup(A\cap B^c) &= A\cap(B\cup B^c) \quad\text{(distributiva)} \\ &= A\cap R = A \quad\text{(inverso, neutro)} \end{aligned}$$` },
+          { pregunta: String.raw`Simplificá $(A \cup B) \cap (A \cup B^c)$.`, respuesta: String.raw`$$\begin{aligned} (A\cup B)\cap(A\cup B^c) &= A\cup(B\cap B^c) \quad\text{(distributiva)} \\ &= A\cup\varnothing = A \quad\text{(inverso, neutro)} \end{aligned}$$` },
+        ],
+        // N3 — con complemento
+        [
+          { pregunta: String.raw`Simplificá $A \cup (A^c \cap B)$.`, respuesta: String.raw`$$\begin{aligned} A\cup(A^c\cap B) &= (A\cup A^c)\cap(A\cup B) \quad\text{(distributiva)} \\ &= R\cap(A\cup B) = A\cup B \quad\text{(inverso, neutro)} \end{aligned}$$` },
+          { pregunta: String.raw`Simplificá $A \cap (A^c \cup B)$.`, respuesta: String.raw`$$\begin{aligned} A\cap(A^c\cup B) &= (A\cap A^c)\cup(A\cap B) \quad\text{(distributiva)} \\ &= \varnothing\cup(A\cap B) = A\cap B \quad\text{(inverso, neutro)} \end{aligned}$$` },
+        ],
+        // N4 — con resta (reescribir A−B = A∩B^c)
+        [
+          { pregunta: String.raw`Simplificá $(A - B) \cup (A \cap B)$.`, respuesta: String.raw`$$\begin{aligned} (A-B)\cup(A\cap B) &= (A\cap B^c)\cup(A\cap B) \quad\text{(resta)} \\ &= A\cap(B^c\cup B) = A\cap R = A \end{aligned}$$` },
+          { pregunta: String.raw`Simplificá $(A \cup B) - B$.`, respuesta: String.raw`$$\begin{aligned} (A\cup B)-B &= (A\cup B)\cap B^c \quad\text{(resta)} \\ &= (A\cap B^c)\cup(B\cap B^c) = (A\cap B^c)\cup\varnothing = A - B \end{aligned}$$` },
+        ],
+        // N5 — demostrar una igualdad
+        [
+          { pregunta: String.raw`Demostrá por leyes que $A - (A \cap B) = A - B$.`, respuesta: String.raw`$$\begin{aligned} A-(A\cap B) &= A\cap(A\cap B)^c \quad\text{(resta)} \\ &= A\cap(A^c\cup B^c) \quad\text{(De Morgan)} \\ &= (A\cap A^c)\cup(A\cap B^c) \quad\text{(distributiva)} \\ &= \varnothing\cup(A\cap B^c) = A\cap B^c = A - B \end{aligned}$$` },
+          { pregunta: String.raw`Demostrá por leyes que $(A - B) \cup B = A \cup B$.`, respuesta: String.raw`$$\begin{aligned} (A-B)\cup B &= (A\cap B^c)\cup B \quad\text{(resta)} \\ &= (A\cup B)\cap(B^c\cup B) \quad\text{(distributiva)} \\ &= (A\cup B)\cap R = A\cup B \quad\text{(inverso, neutro)} \end{aligned}$$` },
+        ],
+      ],
     },
     {
       id: "alg-u03-024",

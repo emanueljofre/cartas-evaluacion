@@ -230,13 +230,45 @@ Con neutro $1=1+0i$. Como $(\mathbb{C},+)$ y $(\mathbb{C},\cdot)$ son grupos con
 
     // ── Ecuaciones y raíces conjugadas ───────────────────
     {
-      id: "alg-u07-018", tipo: "ejercicio", dificultad: "dificil",
+      id: "alg-u07-018", tipo: "practica",
       tags: ["cuadratica", "discriminante", "raices-conjugadas"],
       fuente: "algebra/cheatsheets/unidad-07-numeros-complejos.html",
-      pregunta: String.raw`Resolvé $x^{2}-2x+4=0$ en $\mathbb{C}$.`,
-      respuesta: String.raw`$\Delta = b^{2}-4ac = 4-16 = -12 < 0 \Rightarrow$ raíces complejas conjugadas.
-$$x = \frac{2 \pm \sqrt{-12}}{2} = \frac{2 \pm 2\sqrt{3}\,i}{2} = 1 \pm \sqrt{3}\,i$$
-Las raíces son $1+\sqrt{3}\,i$ y su conjugada $1-\sqrt{3}\,i$.`,
+      concepto: String.raw`Resolver una cuadrática $ax^{2}+bx+c=0$ con $\Delta<0$ (raíces complejas conjugadas, $\sqrt{-k}=\sqrt{k}\,i$). Sube por ejes: raíz imaginaria pura → parte real (con $b$) → coeficientes negativos → $a\neq1$ / fracciones.`,
+      variantes: [
+        // N1 — x²+c=0, raíces imaginarias puras
+        [
+          { pregunta: String.raw`Resolvé $x^{2}+1=0$ en $\mathbb{C}$.`, respuesta: String.raw`$x^{2}=-1 \Rightarrow x=\pm\sqrt{-1}$:
+$$x = \pm i$$`, pista: "Pasá la constante, sacá raíz y usá √(−k)=√k·i." },
+          { pregunta: String.raw`Resolvé $x^{2}+9=0$ en $\mathbb{C}$.`, respuesta: String.raw`$x^{2}=-9$:
+$$x = \pm 3i$$` },
+        ],
+        // N2 — x²+c=0 mayores
+        [
+          { pregunta: String.raw`Resolvé $x^{2}+4=0$ en $\mathbb{C}$.`, respuesta: String.raw`$$x = \pm 2i$$` },
+          { pregunta: String.raw`Resolvé $x^{2}+25=0$ en $\mathbb{C}$.`, respuesta: String.raw`$$x = \pm 5i$$` },
+        ],
+        // N3 — con término bx (raíces conjugadas)
+        [
+          { pregunta: String.raw`Resolvé $x^{2}-2x+4=0$ en $\mathbb{C}$.`, respuesta: String.raw`$\Delta = 4-16 = -12 < 0$:
+$$x = \frac{2 \pm \sqrt{-12}}{2} = \frac{2 \pm 2\sqrt{3}\,i}{2} = 1 \pm \sqrt{3}\,i$$` },
+          { pregunta: String.raw`Resolvé $x^{2}-4x+13=0$ en $\mathbb{C}$.`, respuesta: String.raw`$\Delta = 16-52 = -36$, $\sqrt{-36}=6i$:
+$$x = \frac{4 \pm 6i}{2} = 2 \pm 3i$$` },
+        ],
+        // N4 — coeficientes negativos / otros
+        [
+          { pregunta: String.raw`Resolvé $x^{2}+2x+5=0$ en $\mathbb{C}$.`, respuesta: String.raw`$\Delta = 4-20 = -16$, $\sqrt{-16}=4i$:
+$$x = \frac{-2 \pm 4i}{2} = -1 \pm 2i$$` },
+          { pregunta: String.raw`Resolvé $x^{2}-6x+10=0$ en $\mathbb{C}$.`, respuesta: String.raw`$\Delta = 36-40 = -4$, $\sqrt{-4}=2i$:
+$$x = \frac{6 \pm 2i}{2} = 3 \pm i$$` },
+        ],
+        // N5 — a≠1 / fracciones
+        [
+          { pregunta: String.raw`Resolvé $2x^{2}-4x+5=0$ en $\mathbb{C}$.`, respuesta: String.raw`$\Delta = 16-40 = -24$, $\sqrt{-24}=2\sqrt{6}\,i$:
+$$x = \frac{4 \pm 2\sqrt{6}\,i}{4} = 1 \pm \tfrac{\sqrt{6}}{2}\,i$$` },
+          { pregunta: String.raw`Resolvé $x^{2}+x+1=0$ en $\mathbb{C}$.`, respuesta: String.raw`$\Delta = 1-4 = -3$, $\sqrt{-3}=\sqrt{3}\,i$:
+$$x = \frac{-1 \pm \sqrt{3}\,i}{2} = -\tfrac{1}{2} \pm \tfrac{\sqrt{3}}{2}\,i$$` },
+        ],
+      ],
     },
     {
       id: "alg-u07-019", tipo: "ejercicio", dificultad: "dificil",

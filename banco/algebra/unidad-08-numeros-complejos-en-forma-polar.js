@@ -142,14 +142,47 @@ $$z=\big(4\,;\,300^\circ\big)$$` },
       ],
     },
     {
-      id: "alg-u08-011", tipo: "ejercicio", dificultad: "media",
+      id: "alg-u08-011", tipo: "practica",
       tags: ["conversion", "polar-a-binomica"],
       fuente: "algebra/cheatsheets/unidad-08-numeros-complejos-polar.html",
-      pregunta: String.raw`Recuperá la forma binómica de $\big(\sqrt{8}\,;\,\tfrac{3\pi}{4}\big)$.`,
-      respuesta: String.raw`Con $a=\rho\cos\theta$ y $b=\rho\,\operatorname{sen}\theta$:
-$$a=\sqrt{8}\cdot\big(-\tfrac{\sqrt2}{2}\big)=-2,\qquad b=\sqrt{8}\cdot\tfrac{\sqrt2}{2}=+2$$
-$$z=-2+2i$$
-Chequeo: $\cos<0$ y $\operatorname{sen}>0\Rightarrow$ cuadrante II ✓.`,
+      concepto: String.raw`Pasar de polar a binómica: $a=\rho\cos\theta$, $b=\rho\,\operatorname{sen}\theta$. Sube por ejes (cuadrante, que fija los signos de $\cos$ y $\operatorname{sen}$): I → II → III → IV, con módulos cada vez menos triviales.`,
+      variantes: [
+        // N1 — cuadrante I
+        [
+          { pregunta: String.raw`Pasá $\big(2\,;\,30^\circ\big)$ a forma binómica.`, respuesta: String.raw`$a=2\cos30^\circ=2\cdot\tfrac{\sqrt3}{2}=\sqrt3$; $b=2\operatorname{sen}30^\circ=2\cdot\tfrac12=1$:
+$$z=\sqrt3+i$$`, pista: "a=ρcosθ, b=ρsenθ; el cuadrante fija los signos." },
+          { pregunta: String.raw`Pasá $\big(2\,;\,60^\circ\big)$ a forma binómica.`, respuesta: String.raw`$a=2\cdot\tfrac12=1$; $b=2\cdot\tfrac{\sqrt3}{2}=\sqrt3$:
+$$z=1+\sqrt3\,i$$` },
+        ],
+        // N2 — cuadrante II
+        [
+          { pregunta: String.raw`Pasá $\big(2\,;\,120^\circ\big)$ a forma binómica.`, respuesta: String.raw`$a=2\cos120^\circ=2\cdot(-\tfrac12)=-1$; $b=2\operatorname{sen}120^\circ=2\cdot\tfrac{\sqrt3}{2}=\sqrt3$:
+$$z=-1+\sqrt3\,i$$` },
+          { pregunta: String.raw`Pasá $\big(2\,;\,150^\circ\big)$ a forma binómica.`, respuesta: String.raw`$a=2\cdot(-\tfrac{\sqrt3}{2})=-\sqrt3$; $b=2\cdot\tfrac12=1$:
+$$z=-\sqrt3+i$$` },
+        ],
+        // N3 — cuad II/III, módulo irracional
+        [
+          { pregunta: String.raw`Pasá $\big(2\sqrt2\,;\,135^\circ\big)$ a forma binómica.`, respuesta: String.raw`$a=2\sqrt2\cdot(-\tfrac{\sqrt2}{2})=-2$; $b=2\sqrt2\cdot\tfrac{\sqrt2}{2}=2$:
+$$z=-2+2i$$ (cuadrante II ✓).` },
+          { pregunta: String.raw`Pasá $\big(\sqrt2\,;\,225^\circ\big)$ a forma binómica.`, respuesta: String.raw`$a=\sqrt2\cdot(-\tfrac{\sqrt2}{2})=-1$; $b=\sqrt2\cdot(-\tfrac{\sqrt2}{2})=-1$:
+$$z=-1-i$$ (cuadrante III ✓).` },
+        ],
+        // N4 — cuad III / IV
+        [
+          { pregunta: String.raw`Pasá $\big(4\,;\,210^\circ\big)$ a forma binómica.`, respuesta: String.raw`$a=4\cos210^\circ=4\cdot(-\tfrac{\sqrt3}{2})=-2\sqrt3$; $b=4\cdot(-\tfrac12)=-2$:
+$$z=-2\sqrt3-2i$$` },
+          { pregunta: String.raw`Pasá $\big(4\,;\,300^\circ\big)$ a forma binómica.`, respuesta: String.raw`$a=4\cos300^\circ=4\cdot\tfrac12=2$; $b=4\cdot(-\tfrac{\sqrt3}{2})=-2\sqrt3$:
+$$z=2-2\sqrt3\,i$$` },
+        ],
+        // N5 — cuad IV / I con módulo irracional
+        [
+          { pregunta: String.raw`Pasá $\big(\sqrt2\,;\,315^\circ\big)$ a forma binómica.`, respuesta: String.raw`$a=\sqrt2\cdot\tfrac{\sqrt2}{2}=1$; $b=\sqrt2\cdot(-\tfrac{\sqrt2}{2})=-1$:
+$$z=1-i$$` },
+          { pregunta: String.raw`Pasá $\big(2\sqrt2\,;\,45^\circ\big)$ a forma binómica.`, respuesta: String.raw`$a=2\sqrt2\cdot\tfrac{\sqrt2}{2}=2$; $b=2\sqrt2\cdot\tfrac{\sqrt2}{2}=2$:
+$$z=2+2i$$` },
+        ],
+      ],
     },
     {
       id: "alg-u08-012", tipo: "completar", dificultad: "facil",
