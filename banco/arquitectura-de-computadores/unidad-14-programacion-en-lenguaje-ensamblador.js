@@ -131,22 +131,48 @@ El corchete cambia por completo el significado: *"cuando había un corchete era 
     },
     {
       id: "arq-u14-009",
-      tipo: "ejercicio",
-      dificultad: "media",
+      tipo: "practica",
       lenguaje: "asm",
-      tags: ["direccionamiento", "instrucciones", "examen"],
+      tags: ["direccionamiento", "instrucciones", "examen", "clave"],
       fuente: ["arquitectura-de-computadores/repasos/repaso-examen-modulos-08-12.html","arquitectura-de-computadores/repasos/respuestas-examen-modulos-08-12.md"],
-      pregunta: String.raw`Tipo de consigna de ensamblador que el profe dijo que va a escribir. Escribí la **instrucción correcta** para cada una:
-
-1. Sumá en el registro AX lo que está en la posición de memoria 1100.
-2. Usá direccionamiento inmediato para sumar 8 a la parte alta del registro BX.
-3. Cargá en la parte baja del registro CX el operando 3.`,
-      respuesta: String.raw`1. \`ADD AX,[1100]\` — directo: los **corchetes** indican que se suma el **contenido** de la dirección 1100 (no el número 1100).
-2. \`ADD BH,8\` — **BH** = parte alta de BX; **sin corchetes** = inmediato (el literal 8).
-3. \`MOV CL,3\` — **CL** = parte baja de CX; **MOV** = cargar/copiar.
-
-Patrón: te dan la operación + el registro (entero o mitad H/L) + el modo de direccionamiento; vos escribís la instrucción.`,
-      pista: String.raw`Operación (ADD/MOV) + registro o mitad (H/L) + ¿lleva corchetes?`,
+      concepto: String.raw`Escribir la instrucción (8086/DEBUG) a partir de la consigna: elegir **operación** (MOV copiar / ADD sumar / INC incrementar), **registro** entero o mitad (H/L) y **modo de direccionamiento** (inmediato sin corchetes / directo con corchetes / implícito). Sube por ejes: registro entero → mitad de 8 bits → directo → implícito → secuencia de varias instrucciones.`,
+      variantes: [
+        // N1 — registro entero (16 b) + inmediato
+        [
+          { pregunta: String.raw`Cargá el valor \`7\` en el registro \`AX\`.`, respuesta: String.raw`\`MOV AX,7\` — \`MOV\` = copiar; **sin corchetes** = inmediato (el literal 7); \`AX\` entero (16 bits).`, pista: String.raw`Copiar = MOV; valor suelto, sin corchetes = inmediato.` },
+          { pregunta: String.raw`Sumá el literal \`5\` al registro \`DX\`.`, respuesta: String.raw`\`ADD DX,5\` — \`ADD\` = sumar; **sin corchetes** = inmediato (el literal 5).` },
+        ],
+        // N2 — mitad H/L (8 b) + inmediato (trampa de tamaño)
+        [
+          { pregunta: String.raw`Cargá el valor \`0A\` en la **parte baja** del registro \`BX\`.`, respuesta: String.raw`\`MOV BL,0A\` — \`BL\` = parte **baja** (low, 8 bits) de BX; inmediato. Ojo: una mitad toma **2 dígitos hex**, no 4.`, pista: String.raw`Parte baja = L; una mitad son 8 bits = 2 dígitos hex.` },
+          { pregunta: String.raw`Usá direccionamiento **inmediato** para sumar \`8\` a la **parte alta** del registro \`BX\`.`, respuesta: String.raw`\`ADD BH,8\` — \`BH\` = parte **alta** (high) de BX; **sin corchetes** = inmediato (el literal 8).` },
+        ],
+        // N3 — directo (corchetes); fraseo indirecto que obliga a reconocer "contenido"
+        [
+          { pregunta: String.raw`Sumá en el registro \`AX\` **lo que está en** la posición de memoria \`1100\`.`, respuesta: String.raw`\`ADD AX,[1100]\` — «lo que está en la posición» = **contenido** ⇒ **corchetes** (directo). No es el número 1100 sino lo guardado en esa dirección.`, pista: String.raw`"Lo que está en la posición" = contenido = corchetes (directo).` },
+          { pregunta: String.raw`Copiá en \`CX\` el **contenido** de la dirección \`B310\`.`, respuesta: String.raw`\`MOV CX,[B310]\` — **corchetes** = directo (el contenido de B310, no el número B310).` },
+        ],
+        // N4 — implícito (INC) + combinar mitad/directo
+        [
+          { pregunta: String.raw`Incrementá en 1 el registro \`AX\`.`, respuesta: String.raw`\`INC AX\` — \`INC\` = incrementar; direccionamiento **implícito**: el 1 está sobreentendido, no hay operando explícito.`, pista: String.raw`Incrementar en 1 = INC; sin operando suelto = implícito.` },
+          { pregunta: String.raw`Sumá a la **parte baja** de \`AX\` el **contenido** de la posición \`1100\`.`, respuesta: String.raw`\`ADD AL,[1100]\` — \`AL\` = parte baja de AX; **corchetes** = directo. Combina mitad de registro **y** direccionamiento directo.` },
+        ],
+        // N5 — secuencia de varias instrucciones mezclando modos
+        [
+          { pregunta: String.raw`Traducí a ensamblador, paso a paso: cargá \`4\` en \`AX\`, sumale el **contenido** de la posición \`1100\` y por último incrementá \`AX\` en 1.`, respuesta: String.raw`\`\`\`asm
+MOV AX,4      ; inmediato
+ADD AX,[1100] ; directo (corchetes)
+INC AX        ; implícito
+\`\`\`
+Tres líneas, los **tres modos** de direccionamiento.`, pista: String.raw`Una instrucción por paso: copiar (inmediato) → sumar contenido (directo) → incrementar (implícito).` },
+          { pregunta: String.raw`Traducí: cargá \`1A\` en \`AL\`, sumale el literal \`6\` y después sumale el **contenido** de la dirección \`200\`.`, respuesta: String.raw`\`\`\`asm
+MOV AL,1A   ; inmediato (mitad baja, 8 b)
+ADD AL,6    ; inmediato
+ADD AL,[200] ; directo
+\`\`\`
+Todo sobre la mitad \`AL\`: dos inmediatos y un directo.` },
+        ],
+      ],
     },
     {
       id: "arq-u14-010",
@@ -183,45 +209,6 @@ Truco: **sin operando** → implícito · **número suelto** → inmediato · **
 
 Una operación aritmética (\`ADD\`/\`INC\`) **actualiza** OF/CF/SF/ZF; el **IF** lo maneja el programador (\`STI\`/\`CLI\`) para habilitar o inhibir las interrupciones enmascarables.`,
       pista: String.raw`Overflow, Carry, Sign, Zero e Interrupt Flag.`,
-    },
-    {
-      id: "arq-u14-012",
-      tipo: "ejercicio",
-      dificultad: "media",
-      lenguaje: "asm",
-      tags: ["direccionamiento", "instrucciones", "examen"],
-      fuente: ["arquitectura-de-computadores/repasos/repaso-examen-modulos-08-12.html","arquitectura-de-computadores/repasos/respuestas-examen-modulos-08-12.md"],
-      pregunta: String.raw`Escribí una instrucción que sume en el registro AX lo que está en la **posición de memoria 1100**.`,
-      respuesta: String.raw`\`ADD AX,[1100]\`
-
-Directo: los **corchetes** indican que se suma el **contenido** de la dirección 1100 (no el número 1100).`,
-      pista: String.raw`Sumar = ADD; "lo que está en la posición" = corchetes (directo).`,
-    },
-    {
-      id: "arq-u14-013",
-      tipo: "ejercicio",
-      dificultad: "media",
-      lenguaje: "asm",
-      tags: ["direccionamiento", "instrucciones", "examen"],
-      fuente: ["arquitectura-de-computadores/repasos/repaso-examen-modulos-08-12.html","arquitectura-de-computadores/repasos/respuestas-examen-modulos-08-12.md"],
-      pregunta: String.raw`Usá **direccionamiento inmediato** para sumar 8 a la **parte alta** del registro BX.`,
-      respuesta: String.raw`\`ADD BH,8\`
-
-**BH** = parte alta de BX; **sin corchetes** = inmediato (el literal 8).`,
-      pista: String.raw`Parte alta = H; inmediato = sin corchetes.`,
-    },
-    {
-      id: "arq-u14-014",
-      tipo: "ejercicio",
-      dificultad: "facil",
-      lenguaje: "asm",
-      tags: ["instrucciones", "registros", "examen"],
-      fuente: ["arquitectura-de-computadores/repasos/repaso-examen-modulos-08-12.html","arquitectura-de-computadores/repasos/respuestas-examen-modulos-08-12.md"],
-      pregunta: String.raw`Cargá en la **parte baja** del registro CX el operando 3.`,
-      respuesta: String.raw`\`MOV CL,3\`
-
-**CL** = parte baja de CX; **MOV** = cargar/copiar.`,
-      pista: String.raw`Cargar = MOV; parte baja = L.`,
     },
     {
       id: "arq-u14-015",

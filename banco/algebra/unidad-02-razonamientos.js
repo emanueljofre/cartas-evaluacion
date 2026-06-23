@@ -63,18 +63,44 @@ Las **proposiciones** son V/F; los **razonamientos** son válidos/inválidos.`,
     },
     {
       id: "alg-u02-006",
-      tipo: "ejercicio",
-      dificultad: "dificil",
-      tags: ["validez", "reduccion-al-absurdo"],
-      fuente: ["algebra/unidad-02-razonamientos/ejercicios/guiado-razonamiento-guiado-para-demostrar-la-validez-de-un-razonamiento.pdf","algebra/unidad-02-razonamientos/ejercicios/razonamientos-y-cuantificadores.pdf","algebra/unidad-02-razonamientos/ejercicios/razonamientos.pdf","algebra/unidad-02-razonamientos/ejercicios/respuestas-razonamientos-y-cuantificadores.pdf"],
-      pregunta: String.raw`Determiná por **reducción al absurdo** si es válido: $\;p \to q,\; \lnot q \;\therefore\; \lnot p$.`,
-      respuesta: String.raw`Supongo premisas V y conclusión F, y busco contradicción:
-
-1. $\lnot p = F \Rightarrow p = V$
-2. Premisa 2: $\lnot q = V \Rightarrow q = F$
-3. Premisa 1: $p \to q = V \to F = F$
-
-Pero la premisa 1 debía ser V $\Rightarrow$ **contradicción**. El razonamiento es **válido** (es el Modus Tollens).`,
+      tipo: "practica",
+      tags: ["validez", "reglas-de-inferencia", "reduccion-al-absurdo", "final"],
+      fuente: ["algebra/unidad-02-razonamientos/ejercicios/guiado-razonamiento-guiado-para-demostrar-la-validez-de-un-razonamiento.pdf","algebra/unidad-02-razonamientos/ejercicios/razonamientos.pdf","algebra/cheatsheets/unidad-02-razonamientos.html"],
+      concepto: String.raw`Determinar la validez de un razonamiento (válido sii $(p_1\land\dots\land p_n)\to c$ es tautología). Sube por ejes: regla básica → silogismo → detectar un INVÁLIDO (contraejemplo) → cadena multi-paso → simbolizar un enunciado y demostrar.`,
+      variantes: [
+        // N1 — reglas básicas
+        [
+          { pregunta: String.raw`¿Es válido? $\;p \to q,\; p \;\therefore\; q$`, respuesta: String.raw`**Válido** — es el **Modus Ponens**. Si $p\to q$ y $p$ son V, entonces $q$ es V.`, pista: "Mirá si la forma coincide con una regla conocida (MP, MT, silogismos)." },
+          { pregunta: String.raw`¿Es válido? $\;p \to q,\; \lnot q \;\therefore\; \lnot p$`, respuesta: String.raw`**Válido** — es el **Modus Tollens**. Por absurdo: si $\lnot p=F$ entonces $p=V$, y con $\lnot q=V$ ($q=F$) la premisa $p\to q=V\to F=F$, contradicción.` },
+        ],
+        // N2 — silogismos
+        [
+          { pregunta: String.raw`¿Es válido? $\;p \to q,\; q \to r \;\therefore\; p \to r$`, respuesta: String.raw`**Válido** — **silogismo hipotético** (se encadenan las implicaciones).` },
+          { pregunta: String.raw`¿Es válido? $\;p \lor q,\; \lnot p \;\therefore\; q$`, respuesta: String.raw`**Válido** — **silogismo disyuntivo**: si una opción de la disyunción falla, vale la otra.` },
+        ],
+        // N3 — detectar un INVÁLIDO (falacia) con contraejemplo
+        [
+          { pregunta: String.raw`¿Es válido? $\;p \to q,\; q \;\therefore\; p$`, respuesta: String.raw`**Inválido** — falacia de **afirmar el consecuente**. Contraejemplo $p=F,\ q=V$: las dos premisas son V ($p\to q=V$, $q=V$) pero la conclusión $p=F$.` },
+          { pregunta: String.raw`¿Es válido? $\;p \to q,\; \lnot p \;\therefore\; \lnot q$`, respuesta: String.raw`**Inválido** — falacia de **negar el antecedente**. Contraejemplo $p=F,\ q=V$: premisas V ($p\to q=V$, $\lnot p=V$) y conclusión $\lnot q=F$.` },
+        ],
+        // N4 — multi-paso (transformación / reducción al absurdo)
+        [
+          { pregunta: String.raw`Demostrá la validez: $\;(p \land q) \to r,\; p \to \lnot r \;\therefore\; \lnot p \lor \lnot q$`, respuesta: String.raw`1. Contrarrecíproco de la 2.ª: $p\to\lnot r \equiv r\to\lnot p$.
+2. Silogismo hipotético con la 1.ª: $(p\land q)\to\lnot p$.
+3. Equiv. implicación + De Morgan: $\equiv (\lnot p\lor\lnot q)\lor\lnot p$.
+4. Idempotencia: $\equiv \lnot p\lor\lnot q$ ✓ → **válido**.` },
+          { pregunta: String.raw`Por reducción al absurdo: $\;p\to q,\; \lnot s\to p,\; q\to r,\; \lnot t\to\lnot s,\; \lnot r \;\therefore\; t$`, respuesta: String.raw`Asumo conclusión F ($t=F$) y premisas V:
+$\lnot t=V \Rightarrow \lnot s=V \Rightarrow p=V \Rightarrow q=V \Rightarrow r=V$; pero $\lnot r=V$ pide $r=F$.
+$r=V$ y $r=F$ → **contradicción** → **válido**.` },
+        ],
+        // N5 — simbolizar un enunciado y demostrar
+        [
+          { pregunta: String.raw`Simbolizá y demostrá: «Cuando salgo sin paraguas, llueve. Si está despejado, no llueve. Mañana estará despejado o habrá niebla. Saldré sin paraguas. $\therefore$ Llueve o hay niebla.»`, respuesta: String.raw`$p$: sin paraguas, $q$: llueve, $r$: despejado, $s$: niebla → $p\to q,\ r\to\lnot q,\ r\lor s,\ p \therefore q\lor s$.
+1. MP ($p\to q,\ p$) → $q$. 2. Contrarrecíproco $r\to\lnot q \equiv q\to\lnot r$; MP → $\lnot r$. 3. Silogismo disyuntivo ($r\lor s,\ \lnot r$) → $s$. 4. Adición → $q\lor s$ ✓ → **válido**.` },
+          { pregunta: String.raw`Simbolizá y demostrá: «Si estudio, apruebo. Si apruebo, festejo. No festejé. $\therefore$ No estudié.»`, respuesta: String.raw`$e$: estudio, $a$: apruebo, $f$: festejo → $e\to a,\ a\to f,\ \lnot f \therefore \lnot e$.
+MT con $a\to f$ y $\lnot f$ → $\lnot a$; MT con $e\to a$ y $\lnot a$ → $\lnot e$ ✓ → **válido** (doble Modus Tollens).` },
+        ],
+      ],
     },
     {
       id: "alg-u02-007",
@@ -184,39 +210,6 @@ Demostrarlo es probar $H \to T$ aplicando propiedades y definiciones.`,
       respuesta: String.raw`Es el **dilema constructivo**. Para contrastar:
 - **Dilema destructivo**: $p \to q,\; r \to s,\; \lnot q \lor \lnot s \;\therefore\; \lnot p \lor \lnot r$.
 - **Demostración por casos**: $p \to r,\; q \to r \;\therefore\; (p \lor q) \to r$.`,
-    },
-    {
-      id: "alg-u02-016",
-      tipo: "ejercicio",
-      dificultad: "dificil",
-      tags: ["validez", "reglas-de-inferencia", "equivalencias", "final"],
-      fuente: ["algebra/unidad-02-razonamientos/ejercicios/guiado-razonamiento-guiado-para-demostrar-la-validez-de-un-razonamiento.pdf", "algebra/cheatsheets/unidad-02-razonamientos.html"],
-      pregunta: String.raw`Demostrá la validez **transformando las premisas en la conclusión**: $$(p \land q) \to r,\quad p \to \lnot r \;\therefore\; \lnot p \lor \lnot q$$`,
-      respuesta: String.raw`1. **Contrarrecíproco** en la 2.ª premisa: $\;p \to \lnot r \equiv r \to \lnot p$
-2. **Silogismo hipotético** con la 1.ª: $\;(p \land q) \to r$ y $r \to \lnot p \Rightarrow (p \land q) \to \lnot p$
-3. **Equiv. de la implicación**: $\;\equiv \lnot(p \land q) \lor \lnot p$
-4. **De Morgan**: $\;\equiv (\lnot p \lor \lnot q) \lor \lnot p$
-5. **Conmutativa + asociativa**: $\;\equiv (\lnot p \lor \lnot p) \lor \lnot q$
-6. **Idempotencia**: $\;\equiv \lnot p \lor \lnot q$ ✓
-
-Llegamos a la conclusión $\Rightarrow$ **válido**.`,
-    },
-    {
-      id: "alg-u02-017",
-      tipo: "ejercicio",
-      dificultad: "dificil",
-      tags: ["validez", "reduccion-al-absurdo", "final"],
-      fuente: ["algebra/unidad-02-razonamientos/ejercicios/guiado-razonamiento-guiado-para-demostrar-la-validez-de-un-razonamiento.pdf"],
-      pregunta: String.raw`Por **reducción al absurdo**, ¿es válido? $$p \to q,\; \lnot s \to p,\; q \to r,\; \lnot t \to \lnot s,\; \lnot r \;\therefore\; t$$`,
-      respuesta: String.raw`Asumo conclusión F y premisas V:
-- $V(t)=F \Rightarrow V(\lnot t)=V$
-- $\lnot t \to \lnot s$ con $\lnot t = V \Rightarrow \lnot s = V$
-- $\lnot s \to p$ con $\lnot s = V \Rightarrow p = V$
-- $p \to q$ con $p = V \Rightarrow q = V$
-- $q \to r$ con $q = V \Rightarrow r = V$
-- pero la premisa $\lnot r = V \Rightarrow r = F$
-
-$r = V$ y $r = F \Rightarrow$ **contradicción** $\Rightarrow$ razonamiento **válido**.`,
     },
     {
       id: "alg-u02-018",
@@ -337,21 +330,6 @@ Regla general: el cuantificador **se intercambia** ($\forall \leftrightarrow \ex
       opciones: ["Algún número real no es positivo", "Ningún número real es positivo", "Todos los reales son negativos", "Todos los reales no son positivos"],
       correcta: 0,
       respuesta: String.raw`$\lnot[\forall x: p(x)] \equiv \exists x: \lnot p(x) \Rightarrow$ «**Algún** real **no** es positivo». Basta un contraejemplo; no hace falta que ninguno lo sea.`,
-    },
-    {
-      id: "alg-u02-029",
-      tipo: "ejercicio",
-      dificultad: "dificil",
-      tags: ["validez", "simbolizacion", "modelo"],
-      fuente: ["algebra/examenes/parcial-modelo-resuelto.html", "algebra/examenes/parcial-modelo.pdf"],
-      pregunta: String.raw`Simbolizá y demostrá la validez: «Cuando salgo sin paraguas, llueve. Cuando está despejado, no llueve. Mañana estará despejado o habrá niebla. Saldré sin paraguas. $\therefore$ Llueve o hay niebla.»`,
-      respuesta: String.raw`Con $p$: salgo sin paraguas, $q$: llueve, $r$: despejado, $s$: niebla:
-$$p \to q,\quad r \to \lnot q,\quad r \lor s,\quad p \;\therefore\; q \lor s$$
-1. **MP** ($p \to q,\; p$) $\Rightarrow q$
-2. **Contrarrecíproco** de $r \to \lnot q$: $\;q \to \lnot r$
-3. **MP** ($q \to \lnot r,\; q$) $\Rightarrow \lnot r$
-4. **Silogismo disyuntivo** ($r \lor s,\; \lnot r$) $\Rightarrow s$
-5. **Adición**: de $s$ (o de $q$) $\Rightarrow q \lor s$ ✓ $\Rightarrow$ **válido**.`,
     },
     {
       id: "alg-u02-030",
