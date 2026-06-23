@@ -12,9 +12,18 @@ Publicada en **GitHub Pages**: <https://emanueljofre.github.io/cartas-evaluacion
 cualquier dispositivo, sin instalar nada. Se **redeploya sola** en cada `git push` (CI/CD con GitHub
 Actions, ver `.github/workflows/deploy.yml`).
 
-- **El progreso es por dispositivo/navegador** (`localStorage`): no se sincroniza entre equipos.
+- **Progreso entre dispositivos**: por defecto el avance vive en `localStorage` (por navegador). Para
+  tener el **mismo progreso en todos lados** hay sincronización opcional con un backend gratis
+  (Cloudflare Worker + KV) — botón **☁ Sync** en la app. Setup en [`sync/README.md`](sync/README.md).
 - Los links de **fuente** a los PDFs de la cátedra no funcionan en la nube (esos archivos no se
   publican); el repaso en sí no se ve afectado.
+
+### Sincronizar progreso (☁ Sync)
+
+Una vez desplegado el Worker (ver [`sync/README.md`](sync/README.md)), en cada dispositivo: botón
+**☁ Sync** → pegar la **URL** del Worker y la **clave** → *Guardar y sincronizar*. La app hace
+*merge* al cargar y *push* al calificar, así el avance Leitner queda igual en todos tus equipos. La
+clave y la URL se guardan solo en ese navegador (nunca en el repo).
 
 ## Uso diario
 

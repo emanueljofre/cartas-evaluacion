@@ -72,6 +72,11 @@
   var ignoreDue = false;  // "repasar de todos modos"
   var focusMode = false;  // modo foco (oculta todo menos la carta)
   var inspector = { open: false, query: "", selectedId: null, simBox: null };  // inspector (sandbox)
+  var SYNC_KEY = "flashcards:sync";
+  var sync = null;            // { url, secret } o null — se carga en boot (config por dispositivo)
+  var syncState = "off";      // off | syncing | ok | error
+  var syncOpen = false;       // panel de sync abierto
+  var pushTimer = null;       // debounce del push
 
   function load(k, def) { try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? def : v; } catch (e) { return def; } }
   function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
@@ -100,6 +105,7 @@
     p.last = today();
     progress[c.id] = p;
     save(PROGRESS_KEY, progress);
+    schedulePush();
   }
   function nextReviewLabel(box) {
     var d = BOX_DAYS[Math.min(box, 5) - 1] || 0;
@@ -315,6 +321,9 @@
     var insBtn = el('<button class="filters-btn insp-btn' + (inspector.open ? " on" : "") + '" title="Buscar una carta y simular cómo cambia de caja">🔍 Inspector</button>');
     insBtn.onclick = function () { inspector.open = !inspector.open; renderInspector(); renderControls(); };
     head.appendChild(insBtn);
+    var syncBtn = el('<button class="filters-btn sync-btn ' + syncState + '" title="Sincronizar el progreso entre dispositivos">☁ Sync</button>');
+    syncBtn.onclick = function () { syncOpen = !syncOpen; renderSync(); };
+    head.appendChild(syncBtn);
     if (!prefs.filtersOpen) head.appendChild(activeSummary());
     if (prefs.materias.length || prefs.unidades.length || prefs.dificultades.length || prefs.tipos.length) {
       var clr = el('<button class="filters-clear" title="Limpiar todos los filtros">✕ Limpiar</button>');
@@ -350,7 +359,9 @@
     var reset = el('<button class="btn ghost tiny">Reiniciar progreso</button>');
     reset.onclick = function () {
       if (confirm("¿Borrar todo el progreso de repaso guardado en este navegador? No afecta el contenido de las cartas.")) {
-        progress = {}; save(PROGRESS_KEY, progress); restart();
+        progress = {}; save(PROGRESS_KEY, progress);
+        if (sync && sync.url) { setSyncState("syncing"); putRemote({}).then(function () { setSyncState("ok"); }).catch(function () { setSyncState("error"); }); }
+        restart();
       }
     };
     tg.appendChild(reset);
@@ -606,6 +617,87 @@
     stage.appendChild(n);
   }
 
+  // ---------- Sync (progreso entre dispositivos · Cloudflare Worker) ----------
+  function syncHeaders() { return { "Content-Type": "application/json", "Authorization": "Bearer " + sync.secret }; }
+  function mergeProgress(a, b) {
+    // Unión por id; por carta gana la de `last` más reciente (empate → mayor `seen`).
+    var out = {}, id;
+    a = a || {}; b = b || {};
+    for (id in a) if (Object.prototype.hasOwnProperty.call(a, id)) out[id] = a[id];
+    for (id in b) {
+      if (!Object.prototype.hasOwnProperty.call(b, id)) continue;
+      var x = out[id], y = b[id];
+      if (!x) { out[id] = y; continue; }
+      var lx = Date.parse(x.last || "1970-01-01") || 0, ly = Date.parse(y.last || "1970-01-01") || 0;
+      if (ly > lx || (ly === lx && (y.seen || 0) > (x.seen || 0))) out[id] = y;
+    }
+    return out;
+  }
+  function setSyncState(s) { syncState = s; updateSyncBtn(); if (syncOpen) renderSync(); }
+  function updateSyncBtn() { var b = document.querySelector(".sync-btn"); if (b) b.className = "filters-btn sync-btn " + syncState; }
+  function pullRemote() { return fetch(sync.url, { headers: syncHeaders(), cache: "no-store" }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }); }
+  function putRemote(obj) { return fetch(sync.url, { method: "POST", headers: syncHeaders(), body: JSON.stringify(obj) }).then(function (r) { if (!r.ok) throw new Error(r.status); return true; }); }
+  function pushRemote() {
+    if (!sync || !sync.url) return;
+    if (pushTimer) { clearTimeout(pushTimer); pushTimer = null; }
+    setSyncState("syncing");
+    pullRemote().then(function (remote) {
+      progress = mergeProgress(progress, remote || {});
+      save(PROGRESS_KEY, progress);
+      return putRemote(progress);
+    }).then(function () { setSyncState("ok"); }).catch(function () { setSyncState("error"); });
+  }
+  function schedulePush() {
+    if (!sync || !sync.url) return;
+    setSyncState("syncing");
+    if (pushTimer) clearTimeout(pushTimer);
+    pushTimer = setTimeout(pushRemote, 2500);
+  }
+  function syncOnBoot() {
+    if (!sync || !sync.url) { setSyncState("off"); return; }
+    setSyncState("syncing");
+    pullRemote().then(function (remote) {
+      progress = mergeProgress(progress, remote || {});
+      save(PROGRESS_KEY, progress);
+      return putRemote(progress);
+    }).then(function () { setSyncState("ok"); buildSession(); renderStage(); renderControls(); })
+      .catch(function () { setSyncState("error"); });
+  }
+  function syncStateLabel() { return ({ off: "sin configurar", syncing: "sincronizando…", ok: "✓ sincronizado", error: "✗ error de conexión" })[syncState] || syncState; }
+  function renderSync() {
+    var host = $("sync"); if (!host) return;
+    host.className = "sync" + (syncOpen ? " open" : "");
+    host.innerHTML = "";
+    if (!syncOpen) return;
+    var card = el('<div class="sync-card"></div>');
+    var head = el('<div class="sync-head"><b>☁ Sincronización</b></div>');
+    head.appendChild(el('<span class="sync-state ' + syncState + '">' + syncStateLabel() + '</span>'));
+    card.appendChild(head);
+    card.appendChild(el('<p class="sync-hint">Guardá tu progreso en la nube para tener el mismo avance en todos tus dispositivos. Pegá la URL del Worker y tu clave (la misma en cada dispositivo). Cómo obtenerlas: <code>sync/README.md</code>.</p>'));
+    var urlIn = el('<input class="sync-in" type="url" placeholder="https://cartas-sync.…workers.dev">'); urlIn.value = (sync && sync.url) || "";
+    var secIn = el('<input class="sync-in" type="password" placeholder="clave (SYNC_SECRET)">'); secIn.value = (sync && sync.secret) || "";
+    card.appendChild(el('<label class="sync-lbl">URL del backend</label>')); card.appendChild(urlIn);
+    card.appendChild(el('<label class="sync-lbl">Clave</label>')); card.appendChild(secIn);
+    var row = el('<div class="sync-actions"></div>');
+    var saveB = el('<button class="btn primary tiny">Guardar y sincronizar</button>');
+    saveB.onclick = function () {
+      var u = urlIn.value.trim().replace(/\/+$/, ""), s = secIn.value.trim();
+      if (!u || !s) { setSyncState("error"); return; }
+      sync = { url: u, secret: s }; save(SYNC_KEY, sync);
+      syncOnBoot(); renderSync();
+    };
+    row.appendChild(saveB);
+    if (sync) {
+      var nowB = el('<button class="btn ghost tiny">Sincronizar ahora</button>'); nowB.onclick = pushRemote; row.appendChild(nowB);
+      var offB = el('<button class="btn ghost tiny">Desconectar</button>');
+      offB.onclick = function () { sync = null; try { localStorage.removeItem(SYNC_KEY); } catch (e) {} setSyncState("off"); renderSync(); renderControls(); };
+      row.appendChild(offB);
+    }
+    var closeB = el('<button class="btn ghost tiny">Cerrar</button>'); closeB.onclick = function () { syncOpen = false; renderSync(); }; row.appendChild(closeB);
+    card.appendChild(row);
+    host.appendChild(card);
+  }
+
   // ---------- Inspector (buscar carta + simular caja · sandbox) ----------
   function inspById(id) { for (var i = 0; i < ALL.length; i++) if (ALL[i].id === id) return ALL[i]; return null; }
   function inspMatch(c, q) {
@@ -765,6 +857,7 @@
 
   // ---------- Teclado ----------
   document.addEventListener("keydown", function (e) {
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test((e.target && e.target.tagName) || "")) return;  // no robar teclas al tipear
     if (inspector.open) { if (e.key === "Escape") { e.preventDefault(); inspector.open = false; renderInspector(); renderControls(); } return; }
     if (e.key === "Escape") { if (focusMode) { e.preventDefault(); setFocus(false); } return; }
     if (!session.length || idx >= session.length) return;
@@ -791,9 +884,11 @@
     prefs.materias = prefs.materias.filter(function (m) { return validMaterias.indexOf(m) >= 0; });
     // las unidades requieren su materia seleccionada (limpia prefs viejas inconsistentes)
     prefs.unidades = prefs.unidades.filter(function (u) { return prefs.materias.indexOf(u.split("/")[0]) >= 0; });
+    sync = load(SYNC_KEY, null);
     renderControls();
     buildSession();
     renderStage();
+    syncOnBoot();
     var fb = $("focusToggle"); if (fb) fb.onclick = function () { setFocus(!focusMode); };
     // service worker solo si está servido por http(s)
     if ("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {

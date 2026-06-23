@@ -296,6 +296,24 @@ body.inspecting .inspector{display:block; background:var(--surface); border:1px 
 .insp-inst:first-of-type{border-top:none}
 .insp-inst .content.answer{opacity:.85; margin-top:.2rem}
 @media(max-width:680px){.insp-body{grid-template-columns:1fr} .insp-list{max-height:38vh}}
+
+/* ---- Sync ---- */
+.sync-btn.ok{border-color:var(--accent4); color:#bbf7d0}
+.sync-btn.syncing{border-color:var(--accent3); color:#fde68a}
+.sync-btn.error{border-color:var(--red); color:#fecaca}
+.sync{display:none}
+.sync.open{display:block; margin-bottom:1.3rem}
+.sync-card{background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1rem; max-width:560px}
+.sync-head{display:flex; align-items:center; justify-content:space-between; gap:.6rem; margin-bottom:.4rem}
+.sync-head b{font-family:var(--display); font-size:1rem}
+.sync-state{font-family:var(--mono); font-size:.62rem; letter-spacing:.04em; white-space:nowrap}
+.sync-state.ok{color:var(--accent4)} .sync-state.syncing{color:var(--accent3)} .sync-state.error{color:var(--red)} .sync-state.off{color:var(--muted)}
+.sync-hint{font-size:.78rem; color:var(--muted); line-height:1.5; margin:.2rem 0 .7rem}
+.sync-hint code{font-family:var(--mono); font-size:.9em; background:rgba(124,58,237,.14); border:1px solid var(--border); border-radius:4px; padding:.05em .35em}
+.sync-lbl{display:block; font-family:var(--mono); font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin:.55rem 0 .25rem}
+.sync-in{width:100%; font-family:var(--mono); font-size:.82rem; padding:.5rem .7rem; border-radius:8px; border:1px solid var(--border); background:var(--card); color:var(--text)}
+.sync-in:focus{outline:none; border-color:var(--accent)}
+.sync-actions{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.85rem}
 </style>
 </head>
 <body>
@@ -318,6 +336,8 @@ body.inspecting .inspector{display:block; background:var(--surface); border:1px 
   <div class="controls" id="controls"></div>
 
   <div class="inspector" id="inspector"></div>
+
+  <div class="sync" id="sync"></div>
 
   <div class="stage" id="stage"></div>
 

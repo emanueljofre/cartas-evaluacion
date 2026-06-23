@@ -35,7 +35,7 @@ jobs:
       - name: Preparar sitio
         run: |
           mkdir -p _site
-          rsync -a --exclude='.git' --exclude='.github' --exclude='_site' ./ _site/
+          rsync -a --exclude='.git' --exclude='.github' --exclude='_site' --exclude='sync' ./ _site/
 
       - name: Subir artefacto
         uses: actions/upload-pages-artifact@v3

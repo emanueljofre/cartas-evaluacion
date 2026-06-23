@@ -1,0 +1,9 @@
+name = "cartas-sync"
+main = "worker.js"
+compatibility_date = "2026-01-01"
+
+# Completar el id tras crear el namespace:  wrangler kv namespace create KV
+# (ver sync/README.md). El binding DEBE llamarse "KV".
+[[kv_namespaces]]
+binding = "KV"
+id = "REEMPLAZAR_CON_EL_ID_DEL_KV"
