@@ -321,7 +321,7 @@
     var insBtn = el('<button class="filters-btn insp-btn' + (inspector.open ? " on" : "") + '" title="Buscar una carta y simular cómo cambia de caja">🔍 Inspector</button>');
     insBtn.onclick = function () { inspector.open = !inspector.open; renderInspector(); renderControls(); };
     head.appendChild(insBtn);
-    var syncBtn = el('<button class="filters-btn sync-btn ' + syncState + '" title="Sincronizar el progreso entre dispositivos">☁ Sync</button>');
+    var syncBtn = el('<button class="filters-btn sync-btn ' + syncState + '" title="Sincronizar el progreso entre dispositivos">' + syncBtnLabel() + '</button>');
     syncBtn.onclick = function () { syncOpen = !syncOpen; renderSync(); };
     head.appendChild(syncBtn);
     if (!prefs.filtersOpen) head.appendChild(activeSummary());
@@ -634,10 +634,12 @@
     return out;
   }
   function setSyncState(s) { syncState = s; updateSyncBtn(); if (syncOpen) renderSync(); }
-  function updateSyncBtn() { var b = document.querySelector(".sync-btn"); if (b) b.className = "filters-btn sync-btn " + syncState; }
+  function syncBtnLabel() { return "☁ " + ({ off: "Sync", syncing: "sincronizando…", ok: "✓ sincronizado", error: "⚠ error" })[syncState]; }
+  function updateSyncBtn() { var b = document.querySelector(".sync-btn"); if (b) { b.className = "filters-btn sync-btn " + syncState; b.textContent = syncBtnLabel(); } }
+  function announceSync(ok) { toast(ok ? "☁ ✓ Progreso sincronizado" : "☁ ✗ No se pudo sincronizar — revisá URL y clave", ok ? "good" : "bad"); }
   function pullRemote() { return fetch(sync.url, { headers: syncHeaders(), cache: "no-store" }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }); }
   function putRemote(obj) { return fetch(sync.url, { method: "POST", headers: syncHeaders(), body: JSON.stringify(obj) }).then(function (r) { if (!r.ok) throw new Error(r.status); return true; }); }
-  function pushRemote() {
+  function pushRemote(announce) {
     if (!sync || !sync.url) return;
     if (pushTimer) { clearTimeout(pushTimer); pushTimer = null; }
     setSyncState("syncing");
@@ -645,7 +647,7 @@
       progress = mergeProgress(progress, remote || {});
       save(PROGRESS_KEY, progress);
       return putRemote(progress);
-    }).then(function () { setSyncState("ok"); }).catch(function () { setSyncState("error"); });
+    }).then(function () { setSyncState("ok"); if (announce) announceSync(true); }).catch(function () { setSyncState("error"); if (announce) announceSync(false); });
   }
   function schedulePush() {
     if (!sync || !sync.url) return;
@@ -653,15 +655,15 @@
     if (pushTimer) clearTimeout(pushTimer);
     pushTimer = setTimeout(pushRemote, 2500);
   }
-  function syncOnBoot() {
+  function syncOnBoot(announce) {
     if (!sync || !sync.url) { setSyncState("off"); return; }
     setSyncState("syncing");
     pullRemote().then(function (remote) {
       progress = mergeProgress(progress, remote || {});
       save(PROGRESS_KEY, progress);
       return putRemote(progress);
-    }).then(function () { setSyncState("ok"); buildSession(); renderStage(); renderControls(); })
-      .catch(function () { setSyncState("error"); });
+    }).then(function () { setSyncState("ok"); if (announce) announceSync(true); buildSession(); renderStage(); renderControls(); })
+      .catch(function () { setSyncState("error"); if (announce) announceSync(false); });
   }
   function syncStateLabel() { return ({ off: "sin configurar", syncing: "sincronizando…", ok: "✓ sincronizado", error: "✗ error de conexión" })[syncState] || syncState; }
   function renderSync() {
@@ -673,6 +675,7 @@
     var head = el('<div class="sync-head"><b>☁ Sincronización</b></div>');
     head.appendChild(el('<span class="sync-state ' + syncState + '">' + syncStateLabel() + '</span>'));
     card.appendChild(head);
+    card.appendChild(el('<div class="sync-meta">' + Object.keys(progress).length + ' carta(s) con progreso en este dispositivo</div>'));
     card.appendChild(el('<p class="sync-hint">Guardá tu progreso en la nube para tener el mismo avance en todos tus dispositivos. Pegá la URL del Worker y tu clave (la misma en cada dispositivo). Cómo obtenerlas: <code>sync/README.md</code>.</p>'));
     var urlIn = el('<input class="sync-in" type="url" placeholder="https://cartas-sync.…workers.dev">'); urlIn.value = (sync && sync.url) || "";
     var secIn = el('<input class="sync-in" type="password" placeholder="clave (SYNC_SECRET)">'); secIn.value = (sync && sync.secret) || "";
@@ -682,13 +685,14 @@
     var saveB = el('<button class="btn primary tiny">Guardar y sincronizar</button>');
     saveB.onclick = function () {
       var u = urlIn.value.trim().replace(/\/+$/, ""), s = secIn.value.trim();
-      if (!u || !s) { setSyncState("error"); return; }
+      if (!u || !s) { setSyncState("error"); toast("Faltan la URL o la clave", "bad"); return; }
+      if (!/^https?:\/\//i.test(u)) u = "https://" + u;
       sync = { url: u, secret: s }; save(SYNC_KEY, sync);
-      syncOnBoot(); renderSync();
+      syncOnBoot(true); renderSync();
     };
     row.appendChild(saveB);
     if (sync) {
-      var nowB = el('<button class="btn ghost tiny">Sincronizar ahora</button>'); nowB.onclick = pushRemote; row.appendChild(nowB);
+      var nowB = el('<button class="btn ghost tiny">Sincronizar ahora</button>'); nowB.onclick = function () { pushRemote(true); }; row.appendChild(nowB);
       var offB = el('<button class="btn ghost tiny">Desconectar</button>');
       offB.onclick = function () { sync = null; try { localStorage.removeItem(SYNC_KEY); } catch (e) {} setSyncState("off"); renderSync(); renderControls(); };
       row.appendChild(offB);
