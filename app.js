@@ -636,7 +636,12 @@
   function setSyncState(s) { syncState = s; updateSyncBtn(); if (syncOpen) renderSync(); }
   function syncBtnLabel() { return "☁ " + ({ off: "Sync", syncing: "sincronizando…", ok: "✓ sincronizado", error: "⚠ error" })[syncState]; }
   function updateSyncBtn() { var b = document.querySelector(".sync-btn"); if (b) { b.className = "filters-btn sync-btn " + syncState; b.textContent = syncBtnLabel(); } }
-  function announceSync(ok) { toast(ok ? "☁ ✓ Progreso sincronizado" : "☁ ✗ No se pudo sincronizar — revisá URL y clave", ok ? "good" : "bad"); }
+  function announceSync(ok, err) {
+    if (ok) { toast("☁ ✓ Progreso sincronizado", "good"); return; }
+    if (err) { try { console.warn("[sync] falló:", err && err.message, err); } catch (e) {} }
+    var msg = (err && String(err.message) === "401") ? "☁ ✗ Clave incorrecta" : "☁ ✗ Sin conexión con el backend — revisá la URL";
+    toast(msg, "bad");
+  }
   function pullRemote() { return fetch(sync.url, { headers: syncHeaders(), cache: "no-store" }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }); }
   function putRemote(obj) { return fetch(sync.url, { method: "POST", headers: syncHeaders(), body: JSON.stringify(obj) }).then(function (r) { if (!r.ok) throw new Error(r.status); return true; }); }
   function pushRemote(announce) {
@@ -647,7 +652,7 @@
       progress = mergeProgress(progress, remote || {});
       save(PROGRESS_KEY, progress);
       return putRemote(progress);
-    }).then(function () { setSyncState("ok"); if (announce) announceSync(true); }).catch(function () { setSyncState("error"); if (announce) announceSync(false); });
+    }).then(function () { setSyncState("ok"); if (announce) announceSync(true); }).catch(function (e) { setSyncState("error"); if (announce) announceSync(false, e); });
   }
   function schedulePush() {
     if (!sync || !sync.url) return;
@@ -663,9 +668,9 @@
       save(PROGRESS_KEY, progress);
       return putRemote(progress);
     }).then(function () { setSyncState("ok"); if (announce) announceSync(true); buildSession(); renderStage(); renderControls(); })
-      .catch(function () { setSyncState("error"); if (announce) announceSync(false); });
+      .catch(function (e) { setSyncState("error"); if (announce) announceSync(false, e); });
   }
-  function syncStateLabel() { return ({ off: "sin configurar", syncing: "sincronizando…", ok: "✓ sincronizado", error: "✗ error de conexión" })[syncState] || syncState; }
+  function syncStateLabel() { return ({ off: "sin configurar", syncing: "sincronizando…", ok: "✓ sincronizado", error: "✗ error" })[syncState] || syncState; }
   function renderSync() {
     var host = $("sync"); if (!host) return;
     host.className = "sync" + (syncOpen ? " open" : "");
