@@ -76,16 +76,52 @@ Sumo los individuales, resto las **3 dobles** (contadas 2 veces) y sumo la **tri
     },
     {
       id: "alg-u04-007",
-      tipo: "ejercicio",
-      dificultad: "dificil",
-      tags: ["tres-conjuntos", "venn"],
-      fuente: ["algebra/unidad-04-conteo/apuntes/conteo.pdf"],
-      pregunta: String.raw`Club de 1500 socios, 1200 practican al menos un deporte. $\#(F)=600$, $\#(B)=525$, $\#(N)=450$, $\#(F\cap B)=150$, $\#(B\cap N)=195$, $\#(F\cap N)=120$. ¿Cuántos practican los **tres**? ¿Cuántos **ninguno**? ¿Solo **natación**?`,
-      respuesta: String.raw`Despejo la triple de la fórmula:
-$$1200 = 600+525+450 - 150-195-120 + x \Rightarrow 1110 + x = 1200 \Rightarrow x = 90$$
-- **Los tres:** $\#(F\cap B\cap N) = 90$.
-- **Ninguno:** $1500 - 1200 = 300$.
-- **Solo natación:** $450 - 105 - 90 - 30 = 225$ (saco las regiones $N\cap B$ solo $=105$, triple $=90$, $F\cap N$ solo $=30$).`,
+      tipo: "practica",
+      tags: ["inclusion-exclusion", "venn"],
+      fuente: ["algebra/unidad-04-conteo/apuntes/conteo.pdf", "algebra/unidad-04-conteo/ejercicios/problemas-de-conteo.pdf"],
+      concepto: String.raw`Problemas de conteo por inclusión-exclusión (Venn). Sube por ejes: 2 conjuntos → despejar la intersección → 3 conjuntos (triple) → "exactamente / al menos dos" → "solo X" con despeje.`,
+      variantes: [
+        // N1 — 2 conjuntos: unión / ninguno (uso directo de la fórmula)
+        [
+          { pregunta: String.raw`En un grupo de 30 personas, 18 toman café y 15 toman té; 7 toman **ambas**. ¿Cuántas toman **al menos una**?`, respuesta: String.raw`$$\#(C\cup T) = 18 + 15 - 7 = 26$$`, pista: "Sumá los dos y restá la intersección (que quedó contada dos veces)." },
+          { pregunta: String.raw`40 estudiantes: 25 cursan inglés, 20 francés y 12 **ambos**. ¿Cuántos **no cursan ninguno**?`, respuesta: String.raw`$\#(I\cup F) = 25+20-12 = 33$, entonces:
+
+$$\text{ninguno} = 40 - 33 = 7$$` },
+        ],
+        // N2 — 2 conjuntos: despejar la intersección / "solo"
+        [
+          { pregunta: String.raw`50 personas: 30 leen el diario, 25 una revista y 5 **no leen nada**. ¿Cuántas leen **ambos**?`, respuesta: String.raw`Unión $= 50 - 5 = 45$. Despejo la intersección:
+
+$$\#(D\cap R) = 30 + 25 - 45 = 10$$` },
+          { pregunta: String.raw`60 alumnos aprobaron **al menos una** final: 40 aprobaron Matemática y 35 Física. ¿Cuántos aprobaron **solo Física**?`, respuesta: String.raw`$\#(M\cap F) = 40+35-60 = 15$. Entonces:
+
+$$\text{solo Física} = 35 - 15 = 20$$` },
+        ],
+        // N3 — 3 conjuntos: despejar la triple
+        [
+          { pregunta: String.raw`Club de 1500 socios, 1200 practican al menos un deporte: $\#(F)=600$, $\#(B)=525$, $\#(N)=450$, $\#(F\cap B)=150$, $\#(B\cap N)=195$, $\#(F\cap N)=120$. ¿Cuántos practican **los tres**?`, respuesta: String.raw`$$1200 = 600+525+450 - 150-195-120 + x \Rightarrow 1110 + x = 1200$$
+$$\#(F\cap B\cap N) = 90$$` },
+          { pregunta: String.raw`210 personas, 190 usan **al menos una** red: $\#(A)=100$, $\#(B)=100$, $\#(C)=80$, $\#(A\cap B)=40$, $\#(A\cap C)=30$, $\#(B\cap C)=35$. ¿Cuántas usan **las tres**?`, respuesta: String.raw`$$190 = 100+100+80 - 40-30-35 + x \Rightarrow 175 + x = 190$$
+$$\#(A\cap B\cap C) = 15$$` },
+        ],
+        // N4 — 3 conjuntos: "exactamente dos" / "al menos dos"
+        [
+          { pregunta: String.raw`112 alumnos, 3 libros ($A$, $M$, $S$): $\#(A)=65$, $\#(M)=32$, solo $A=29$, ($A\cap M$ pero no $S$)$=8$, $\#(M\cap S)=11$, los tres $=7$, ninguno $=10$. Hallá "**exactamente dos**" y "**al menos dos**".`, respuesta: String.raw`Regiones: $M\cap S$ solo $=11-7=4$; de $\#(A)$: $A\cap S$ solo $=65-29-8-7=21$.
+- **Exactamente dos** $= 8+21+4 = 33$.
+- **Al menos dos** $= 33 + 7 = 40$.` },
+          { pregunta: String.raw`50 personas, 3 apps: $\#(A)=24$, $\#(B)=24$, $\#(C)=21$, $\#(A\cap B)=8$, $\#(A\cap C)=9$, $\#(B\cap C)=7$, las tres $=3$. ¿Cuántas usan **al menos dos**?`, respuesta: String.raw`$$\text{al menos dos} = \#(A\cap B)+\#(A\cap C)+\#(B\cap C) - 2\cdot\text{triple}$$
+$$= 8+9+7 - 2\cdot3 = 18$$
+(Exactamente dos sería $24 - 3\cdot3 = 15$.)` },
+        ],
+        // N5 — 3 conjuntos: "solo X" con despeje grande
+        [
+          { pregunta: String.raw`60 pares con fallas (cuero $C$, suela $S$, color $D$): solo $C=16$, solo $S=10$, las tres $=6$, $\#(C\cap S)=10$, $\#(C)=31$, $\#(S)=27$. Todos tienen al menos una falla. ¿Cuántos tienen **color desteñido** ($\#(D)$)?`, respuesta: String.raw`$C\cap S$ solo $=10-6=4$; de $\#(C)$: $C\cap D$ solo $=31-16-4-6=5$; de $\#(S)$: $S\cap D$ solo $=27-10-4-6=7$.
+Unión $=60$: solo $D = 60-16-10-4-5-7-6 = 12$.
+$$\#(D) = 12+5+7+6 = 30$$` },
+          { pregunta: String.raw`80 personas, 3 idiomas ($A$, $B$, $C$): $\#(A)=28$, $\#(B)=24$, solo $A=12$, solo $B=9$, $\#(A\cap B)=9$, $\#(A\cap C)=11$, $\#(B\cap C)=10$, los tres $=4$, ninguno $=3$. ¿Cuántas hablan **solo $C$**?`, respuesta: String.raw`Dobles "solo": $A\cap B=9-4=5$, $A\cap C=11-4=7$, $B\cap C=10-4=6$. Unión $=80-3=77$.
+$$\text{solo }C = 77 - (12+9+5+7+6+4) = 34$$` },
+        ],
+      ],
     },
 
     /* ── Generalización a n conjuntos ──────────── */
@@ -277,30 +313,6 @@ Se arma una tabla $2\times 2$ con totales de fila/columna. Para **3+** propiedad
       opciones: ["23", "18", "25", "30"],
       correcta: 0,
       respuesta: String.raw`Triple $=0$. Solo Cel $=17-5=12$. De $\#(\text{Cel})=20$: $\;\text{Cel}\cap\text{Note}=20-12-5=3$. De "exactamente dos" $=18$: $\;\text{Tab}\cap\text{Note}=18-5-3=10$. De $\#(\text{Tab})=38$: $\;\text{solo Tab}=38-5-10=\mathbf{23}$.`,
-    },
-    {
-      id: "alg-u04-024",
-      tipo: "ejercicio",
-      dificultad: "dificil",
-      tags: ["al-menos", "exactamente", "tres-libros"],
-      fuente: ["algebra/unidad-04-conteo/ejercicios/problemas-de-conteo.pdf", "algebra/unidad-04-conteo/ejercicios/respuestas-problemas-de-conteo.pdf"],
-      pregunta: String.raw`112 alumnos, 3 libros ($A$, $M$, $S$): $\#(A)=65$, $\#(M)=32$, solo $A=29$, ($A\cap M$ pero no $S$) $=8$, $\#(M\cap S)=11$, los tres $=7$, ninguno $=10$. Hallá "**exactamente dos**" y "**al menos dos**".`,
-      respuesta: String.raw`Regiones: $M\cap S$ solo $=11-7=4$; de $\#(A)$: $A\cap S$ solo $=65-29-8-7=21$.
-- **Exactamente dos** $= 8 + 21 + 4 = 33$.
-- **Al menos dos** $=$ exactamente dos $+$ triple $= 33 + 7 = 40$.`,
-    },
-    {
-      id: "alg-u04-025",
-      tipo: "ejercicio",
-      dificultad: "dificil",
-      tags: ["tres-conjuntos", "despejar"],
-      fuente: ["algebra/unidad-04-conteo/ejercicios/problemas-de-conteo.pdf"],
-      pregunta: String.raw`60 pares con fallas: cuero roto ($C$), suela despegada ($S$), color desteñido ($D$). Solo $C=16$, solo $S=10$, las tres $=6$, $\#(C\cap S)=10$, $\#(C)=31$, $\#(S)=27$. ¿Cuántos tienen **color desteñido** ($\#(D)$)?`,
-      respuesta: String.raw`$C\cap S$ solo $=10-6=4$.
-- De $\#(C)=31$: $\;C\cap D$ solo $=31-16-4-6=5$.
-- De $\#(S)=27$: $\;S\cap D$ solo $=27-10-4-6=7$.
-- Todos tienen al menos una falla $\Rightarrow$ unión $=60$: solo $D = 60-16-10-4-5-7-6 = 12$.
-$$\#(D) = 12 + 5 + 7 + 6 = 30$$`,
     },
     {
       id: "alg-u04-026",

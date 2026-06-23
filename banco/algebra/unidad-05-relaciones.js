@@ -76,13 +76,48 @@ $A$ = conjunto de **partida**, $B$ = de **llegada**. $(a,b) \in R$ se lee "$a$ e
 - **Imagen:** $\mathrm{Im}\,R = \{y \in B : \exists\,x,\ (x,y) \in R\}$ — las 2.as componentes ($\mathrm{Im}\,R \subseteq B$).`,
     },
     {
-      id: "alg-u05-008", tipo: "ejercicio", dificultad: "media",
-      tags: ["dominio", "imagen", "inversa"],
-      fuente: ["algebra/unidad-05-relaciones/ejercicios/resuelto-relaciones.pdf", "algebra/unidad-05-relaciones/resumen.md"],
-      pregunta: String.raw`Dada $R = \{(2,1),(5,4),(7,6)\}$, hallá $\mathrm{Dom}\,R$, $\mathrm{Im}\,R$ y $R^{-1}$.`,
-      respuesta: String.raw`$$\mathrm{Dom}\,R = \{2,5,7\} \qquad \mathrm{Im}\,R = \{1,4,6\}$$
+      id: "alg-u05-008", tipo: "practica",
+      tags: ["relaciones", "propiedades", "clasificacion"],
+      fuente: ["algebra/unidad-05-relaciones/ejercicios/resuelto-relaciones.pdf", "algebra/unidad-05-relaciones/resumen.md", "algebra/cheatsheets/unidad-05-relaciones.html"],
+      concepto: String.raw`Analizar una relación finita dada por extensión. Sube por ejes: dominio/imagen/inversa → verificar UNA propiedad → verificar TODAS → clasificar (equivalencia/orden) → hallar clases y partición.`,
+      variantes: [
+        // N1 — dominio, imagen, inversa
+        [
+          { pregunta: String.raw`Dada $R = \{(2,1),(5,4),(7,6)\}$, hallá $\mathrm{Dom}\,R$, $\mathrm{Im}\,R$ y $R^{-1}$.`, respuesta: String.raw`$$\mathrm{Dom}\,R = \{2,5,7\} \qquad \mathrm{Im}\,R = \{1,4,6\}$$
 $$R^{-1} = \{(1,2),(4,5),(6,7)\}$$
-La inversa invierte cada par. Además $\mathrm{Dom}\,R^{-1} = \mathrm{Im}\,R$ e $\mathrm{Im}\,R^{-1} = \mathrm{Dom}\,R$.`,
+La inversa invierte cada par.`, pista: "Dom = 1.as componentes; Im = 2.as; la inversa invierte cada par." },
+          { pregunta: String.raw`Dada $R = \{(1,3),(1,5),(4,2)\}$, hallá $\mathrm{Dom}\,R$, $\mathrm{Im}\,R$ y $R^{-1}$.`, respuesta: String.raw`$$\mathrm{Dom}\,R = \{1,4\} \qquad \mathrm{Im}\,R = \{3,5,2\}$$
+$$R^{-1} = \{(3,1),(5,1),(2,4)\}$$` },
+        ],
+        // N2 — verificar UNA propiedad (con contraejemplo)
+        [
+          { pregunta: String.raw`¿Es **transitiva** $R = \{(1,2),(2,3),(1,1),(2,2)\}$ en $A=\{1,2,3\}$? Justificá.`, respuesta: String.raw`**No.** Están $(1,2)$ y $(2,3)$, pero falta $(1,3)$. Un solo contraejemplo alcanza.` },
+          { pregunta: String.raw`¿Es **simétrica** $R = \{(1,2),(2,1),(2,3)\}$ en $A=\{1,2,3\}$? Justificá.`, respuesta: String.raw`**No.** Está $(2,3)$ pero falta $(3,2)$. (El par $(1,2)$ sí tiene su simétrico $(2,1)$, pero basta uno que falle.)` },
+        ],
+        // N3 — verificar TODAS las propiedades
+        [
+          { pregunta: String.raw`Analizá reflexividad, simetría, antisimetría y transitividad de $R = \{(1,1),(2,2),(3,3),(1,2),(2,3),(1,3)\}$ en $A=\{1,2,3\}$.`, respuesta: String.raw`- **Reflexiva:** sí ($(1,1),(2,2),(3,3)$).
+- **Simétrica:** no (está $(1,2)$ y falta $(2,1)$).
+- **Antisimétrica:** sí (ningún par y su opuesto con $x\neq y$).
+- **Transitiva:** sí (p. ej. $(1,2)\land(2,3)\Rightarrow(1,3)$, que está).` },
+          { pregunta: String.raw`Analizá reflexividad, simetría, antisimetría y transitividad de $R = \{(1,2),(2,1)\}$ en $A=\{1,2,3\}$.`, respuesta: String.raw`- **Reflexiva:** no (faltan $(1,1),(2,2),(3,3)$).
+- **Simétrica:** sí ($(1,2)$ y $(2,1)$).
+- **Antisimétrica:** no ($(1,2)$ y $(2,1)$ con $1\neq2$).
+- **Transitiva:** no ($(1,2)\land(2,1)$ pero falta $(1,1)$).` },
+        ],
+        // N4 — clasificar (equivalencia / orden / ninguna)
+        [
+          { pregunta: String.raw`Clasificá $R = \{(1,1),(2,2),(3,3),(1,2),(2,1)\}$ en $A=\{1,2,3\}$.`, respuesta: String.raw`Reflexiva + simétrica + transitiva $\Rightarrow$ **relación de equivalencia**.` },
+          { pregunta: String.raw`Clasificá $R = \{(1,1),(2,2),(3,3),(1,2),(1,3),(2,3)\}$ en $A=\{1,2,3\}$.`, respuesta: String.raw`Reflexiva + **antisimétrica** + transitiva $\Rightarrow$ **orden amplio**.` },
+        ],
+        // N5 — equivalencia → clases y partición
+        [
+          { pregunta: String.raw`$R = \{(1,1),(2,2),(3,3),(1,2),(2,1)\}$ en $A=\{1,2,3\}$ es de equivalencia. Hallá las clases y la partición.`, respuesta: String.raw`$[1]=[2]=\{1,2\}$ y $[3]=\{3\}$.
+$$\text{Partición: } \{\{1,2\},\{3\}\}$$` },
+          { pregunta: String.raw`$R = \{(2,3),(3,3),(1,1),(2,2),(3,2)\}$ en $A=\{1,2,3\}$ es de equivalencia. Hallá las clases y la partición.`, respuesta: String.raw`$[1]=\{1\}$ y $[2]=[3]=\{2,3\}$.
+$$\text{Partición: } \{\{1\},\{2,3\}\}$$` },
+        ],
+      ],
     },
     {
       id: "alg-u05-009", tipo: "texto", dificultad: "media",
@@ -204,15 +239,6 @@ Implica que es **arreflexiva** (no puede haber pares $(x,x)$). Matriz: diagonal 
 Si $x$ se relaciona con $y$ e $y$ con $z$, entonces $x$ con $z$. Los pares reflexivos siempre la cumplen.`,
     },
     {
-      id: "alg-u05-021", tipo: "ejercicio", dificultad: "media",
-      tags: ["transitividad"],
-      fuente: ["algebra/unidad-05-relaciones/resumen.md", "algebra/cheatsheets/unidad-05-relaciones.html"],
-      pregunta: String.raw`¿Es transitiva $R = \{(1,2),(2,3),(1,1),(2,2)\}$ en $A = \{1,2,3\}$? Justificá.`,
-      respuesta: String.raw`**No.** Están $(1,2) \in R$ y $(2,3) \in R$, pero $(1,3) \notin R$.
-
-Un solo **contraejemplo** alcanza para negar la transitividad. Es *no transitiva*, no *atransitiva* (algunas ternas sí cumplen).`,
-    },
-    {
       id: "alg-u05-022", tipo: "texto", dificultad: "media",
       tags: ["transitividad"],
       fuente: ["algebra/unidad-05-relaciones/resumen.md", "algebra/unidad-05-relaciones/apuntes/relaciones.pdf"],
@@ -282,18 +308,6 @@ $M \odot M$ se calcula como un producto de matrices pero con $\cdot = \land$ (y)
 
 El amplio incluye los pares $(x,x)$; el estricto los excluye.`,
     },
-    {
-      id: "alg-u05-028", tipo: "ejercicio", dificultad: "dificil",
-      tags: ["clasificacion", "equivalencia", "clases"],
-      fuente: ["algebra/unidad-05-relaciones/resumen.md", "algebra/unidad-05-relaciones/ejercicios/resuelto-relaciones.pdf"],
-      pregunta: String.raw`Clasificá $R = \{(1,1),(2,2),(3,3),(1,2),(2,1)\}$ en $A = \{1,2,3\}$ y dá la partición si corresponde.`,
-      respuesta: String.raw`Es **relación de equivalencia**:
-- **Reflexiva:** están $(1,1),(2,2),(3,3)$.
-- **Simétrica:** están $(1,2)$ y $(2,1)$.
-- **Transitiva:** se verifica (p. ej. $(1,2)$ y $(2,1) \Rightarrow (1,1)$).
-
-Clases: $[1] = [2] = \{1,2\}$ y $[3] = \{3\}$ $\Rightarrow$ partición $\{\{1,2\},\{3\}\}$.`,
-    },
 
     // ── Clases de equivalencia y partición ───────────────
     {
@@ -315,15 +329,6 @@ $$[a] = \{x \in A : (x,a) \in R\}$$
 - Clases distintas $\Rightarrow$ no relacionados.
 - Clases distintas son **disjuntas**: $C_i \cap C_k = \varnothing$ ($i \neq k$).
 - La **unión** de todas las clases es $A$.`,
-    },
-    {
-      id: "alg-u05-031", tipo: "ejercicio", dificultad: "dificil",
-      tags: ["clases", "equivalencia"],
-      fuente: ["algebra/unidad-05-relaciones/resumen.md", "algebra/unidad-05-relaciones/ejercicios/resuelto-relaciones.pdf"],
-      pregunta: String.raw`Si $R$ es de equivalencia en $A = \{1,2,3\}$ con $R = \{(2,3),(3,3),(1,1),(2,2),(3,2)\}$, hallá las clases.`,
-      respuesta: String.raw`Relacionados: $1$ solo consigo mismo; $2$ y $3$ entre sí.
-
-Clases: $[1] = \{1\}$ y $[2] = [3] = \{2,3\}$ $\Rightarrow$ partición $\{\{1\},\{2,3\}\}$.`,
     },
 
     // ── Divisibilidad ────────────────────────────────────
