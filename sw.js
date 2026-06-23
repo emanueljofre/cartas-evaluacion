@@ -7,7 +7,7 @@
      Si no hay red, cae al cache (offline sigue funcionando).
    - /vendor/ (KaTeX, inmutable) → CACHE-FIRST (rápido y offline).
    Bump CACHE cuando cambie la lista CORE o esta lógica. */
-var CACHE = "flashcards-v10";
+var CACHE = "flashcards-v11";
 var CORE = [
   ".",
   "index.html",
@@ -54,9 +54,13 @@ self.addEventListener("fetch", function (e) {
   }
 
   // App, mazos y navegaciones: network-first con fallback al cache (offline).
+  // `cache: "no-cache"` fuerza revalidación contra el servidor (ETag → 304 si no cambió,
+  // 200 fresco si cambió). Sin esto, el propio fetch del SW podía recibir una copia del
+  // HTTP cache del navegador y servir mazos/app viejos pese a estar "online".
   if (sameOrigin || req.mode === "navigate") {
+    var fresh = fetch(req, { cache: "no-cache" }).catch(function () { return fetch(req); });
     e.respondWith(
-      fetch(req).then(function (res) { return putCopy(req, res); }).catch(function () {
+      fresh.then(function (res) { return putCopy(req, res); }).catch(function () {
         return caches.match(req).then(function (hit) {
           return hit || (req.mode === "navigate" ? caches.match("index.html") : undefined);
         });
