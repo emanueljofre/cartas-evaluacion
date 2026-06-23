@@ -6,4 +6,4 @@ compatibility_date = "2026-01-01"
 # (ver sync/README.md). El binding DEBE llamarse "KV".
 [[kv_namespaces]]
 binding = "KV"
-id = "REEMPLAZAR_CON_EL_ID_DEL_KV"
+id = "079f684530b14918884242589043115d"
