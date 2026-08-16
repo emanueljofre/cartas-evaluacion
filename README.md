@@ -62,8 +62,23 @@ la app y aparecen. Re-correrla es idempotente (no duplica ni pierde tu progreso)
 
 Esta carpeta vive **dentro** del repo `facultad`, pero el sitio lo sirve un repo aparte,
 [`cartas-evaluacion`](https://github.com/emanueljofre/cartas-evaluacion), donde `_flashcards/`
-es la raíz: ahí adentro sí corre `.github/workflows/deploy.yml`. Por eso **pushear `facultad` no
-publica nada**: hay que copiar el contenido al otro repo.
+es la raíz: ahí adentro sí corre `.github/workflows/deploy.yml`. No se sirve Pages desde
+`facultad` porque es privado (Pages sobre repo privado es de plan pago) y porque cambiaría la
+URL, rompiendo el PWA ya instalado.
+
+**Es automático.** `.github/workflows/publicar-flashcards.yml`, en la raíz de `facultad`, copia
+el contenido trackeado de `_flashcards/` al repo publicado en cada push a `main` que toque esta
+carpeta, y ese push dispara el deploy de Pages. Un archivo borrado acá también se borra allá.
+Lo único que hay que recordar: **lo que no esté commiteado no se publica**.
+
+El workflow se apoya en una deploy key con escritura sobre `cartas-evaluacion`, guardada como
+secret `CARTAS_DEPLOY_KEY` de este repo. El encabezado del propio workflow explica por qué deploy
+key y no un token de cuenta, y cómo darla de alta si alguna vez hay que rotarla.
+
+Para forzar una publicación sin cambios, o para probar la clave después de rotarla:
+`gh workflow run publicar-flashcards.yml --repo emanueljofre/facultad`.
+
+Si alguna vez hace falta publicar a mano, el equivalente exacto de lo que hace el workflow:
 
 ```bash
 cd $(mktemp -d) && git clone https://github.com/emanueljofre/cartas-evaluacion.git . \
