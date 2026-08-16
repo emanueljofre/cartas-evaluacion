@@ -179,8 +179,12 @@ html[data-theme="light"]{
 .nota.exam{border-left-color:var(--exam-line)}
 .nota.exam .tag{color:var(--exam)}
 
-/* --- rúbrica: el criterio de corrección, dónde se cobra el crédito --- */
-.vale{border:1px solid var(--exam-line);border-left-width:3px;background:var(--exam-dim);border-radius:7px;padding:.7rem 1rem .75rem;margin:.9rem 0;font-size:.94em;line-height:1.62}
+/* --- rúbrica: el criterio de corrección, dónde se cobra el crédito ---
+   Filete OPACO (`--exam`) desde cheatsheet 1.13.0: heredándolo de `--exam-line`, que tiene
+   alfa .38, la rúbrica medía 3,82 de saliencia de skim, de las más bajas de la gramática,
+   contra una spec que la declara «el componente de mayor jerarquía». Una carta y una hoja
+   dicen «vale puntos» igual: si cambia allá, cambia acá. */
+.vale{border:1px solid var(--exam-line);border-left:3px solid var(--exam);background:var(--exam-dim);border-radius:7px;padding:.7rem 1rem .75rem;margin:.9rem 0;font-size:.94em;line-height:1.62}
 .vale .tag{display:block;font:600 var(--fs-label)/1.8 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--exam)}
 .vale > :first-child{margin-top:0}
 .vale > :last-child{margin-bottom:0}
