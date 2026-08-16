@@ -8,6 +8,7 @@ FLASHCARDS.manifest([
   "algebra/unidad-05-relaciones.js",
   "algebra/unidad-07-numeros-complejos.js",
   "algebra/unidad-08-numeros-complejos-en-forma-polar.js",
+  "algebra-lineal/unidad-01-numeros-enteros.js",
   "arquitectura-de-computadores/unidad-01-resena-historica-de-la-computacion.js",
   "arquitectura-de-computadores/unidad-02-sistemas-numericos.js",
   "arquitectura-de-computadores/unidad-03-numeros-reales-y-codigos.js",

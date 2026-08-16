@@ -1,5 +1,7 @@
 /* Mazo — Arquitectura de Computadores · Unidad 09 · Paralelismo y procesadores de alta prestación
-   Generado del repaso de examen (repaso-examen-modulos-08-12.html). */
+   Generado del repaso de examen (repaso-examen-modulos-08-12.html).
+   Bloques del sistema «Manual»: `> [!prof|trampa|vale|exam|nota|fx] tag`.
+   Nada de emoji como identificador de bloque (ver card-schema.md § Bloques). */
 FLASHCARDS.deck({
   materia: "arquitectura-de-computadores",
   unidad: "09-paralelismo-y-procesadores",
@@ -20,7 +22,8 @@ FLASHCARDS.deck({
 
 **Ventaja:** con el pipeline lleno se completa ~1 instrucción por ciclo en vez de 1 cada 4.
 
-💡 Analogía de Henry Ford: una vez entregado el primer auto, cada siguiente tarda mucho menos. **Sinónimos:** pipeline = cauce segmentado = vía de ejecución.`,
+> [!nota]
+> Analogía de Henry Ford: una vez entregado el primer auto, cada siguiente tarda mucho menos. **Sinónimos:** pipeline = cauce segmentado = vía de ejecución.`,
     },
     {
       id: "arq-u09-002",
@@ -38,7 +41,8 @@ $$IPC = \frac{1 \text{ instrucción}}{4 \text{ ciclos}} = 0{,}25$$
 **Con pipeline lleno** (se completa 1 instrucción por ciclo):
 $$IPC = \frac{1 \text{ instrucción}}{1 \text{ ciclo}} = 1 \quad (4\times \text{ más rápido})$$
 
-🧠 Un superescalar (varios pipelines) llega a **IPC > 1** — ej. 2 pipelines → IPC máx teórico = 2.`,
+> [!nota]
+> Un superescalar (varios pipelines) llega a **IPC > 1**: ej. 2 pipelines → IPC máx teórico = 2.`,
     },
     {
       id: "arq-u09-003",
@@ -50,7 +54,8 @@ $$IPC = \frac{1 \text{ instrucción}}{1 \text{ ciclo}} = 1 \quad (4\times \text{
       pista: String.raw`Más etapas, pero más pequeñas.`,
       respuesta: String.raw`Dividir el pipeline en un **número mayor de etapas más pequeñas**, para trabajar con más instrucciones a la vez y **poder elevar la frecuencia** del CPU.
 
-🧠 Como la frecuencia la limita la etapa más larga, subdividir cada etapa (más cortas) permite subir el reloj.
+> [!nota]
+> Como la frecuencia la limita la etapa más larga, subdividir cada etapa (más cortas) permite subir el reloj.
 
 **Contra:** más transistores → más consumo/calor. Ej. Pentium 4: 20–31 etapas ("consumía como un dragón").`,
     },
@@ -60,7 +65,7 @@ $$IPC = \frac{1 \text{ instrucción}}{1 \text{ ciclo}} = 1 \quad (4\times \text{
       dificultad: "dificil",
       tags: ["paralelismo", "trampa", "superescalar"],
       fuente: ["arquitectura-de-computadores/repasos/repaso-examen-modulos-08-12.html","arquitectura-de-computadores/repasos/respuestas-examen-modulos-08-12.md"],
-      pregunta: String.raw`⚠️ **Trampa:** ¿qué tipo de paralelismo da el **pipeline** y cuál implementa un **procesador superescalar**?`,
+      pregunta: String.raw`**Trampa:** ¿qué tipo de paralelismo da el **pipeline** y cuál implementa un **procesador superescalar**?`,
       opciones: [
         String.raw`El pipeline da paralelismo **temporal** (1 resultado/ciclo) y el superescalar da paralelismo **espacial** (N resultados/ciclo).`,
         String.raw`El pipeline da paralelismo **espacial** (N resultados/ciclo) y el superescalar da paralelismo **temporal** (1 resultado/ciclo).`,
@@ -72,7 +77,8 @@ $$IPC = \frac{1 \text{ instrucción}}{1 \text{ ciclo}} = 1 \quad (4\times \text{
 
 El **superescalar** da **paralelismo espacial**: varios pipelines en el espacio físico (= **ILP**) → **N resultados por ciclo**; y además **combina ambos** (temporal dentro de cada vía + espacial entre las vías).
 
-⚠️ **Trampa:** el profe avisó que en los exámenes "ponen cruzado los tipos de paralelismos". Pregunta clave: ¿cuántos números calculo por ciclo? **Temporal = 1 · Espacial = N**.
+> [!trampa]
+> El profe avisó que en los exámenes "ponen cruzado los tipos de paralelismos". Pregunta clave: ¿cuántos números calculo por ciclo? **Temporal = 1 · Espacial = N**.
 
 ILP = *Instruction-Level Parallelism* (paralelismo a nivel de instrucciones).`,
     },
@@ -86,7 +92,8 @@ ILP = *Instruction-Level Parallelism* (paralelismo a nivel de instrucciones).`,
       pista: String.raw`Más de un escalar (número) por ciclo.`,
       respuesta: String.raw`El que **calcula más de un escalar (número) por ciclo de reloj**, teniendo **varios pipelines de ejecución en paralelo**.
 
-🧠 Un **escalar** = cantidad definida por un solo número y una unidad (un 5, un 8). Analogía del profe: "un pulpo con calculadoras en cada tentáculo".`,
+> [!nota]
+> Un **escalar** = cantidad definida por un solo número y una unidad (un 5, un 8). Analogía del profe: "un pulpo con calculadoras en cada tentáculo".`,
     },
     {
       id: "arq-u09-006",
@@ -100,7 +107,8 @@ ILP = *Instruction-Level Parallelism* (paralelismo a nivel de instrucciones).`,
 
 Fue el **primer superescalar de Intel**.
 
-🧠 Rúbrica del profe: no pide los 3,1 millones de transistores, pero sí que era superescalar, 2 ALUs, bus de 64 bits, Harvard. (No hacía ejecución fuera de orden: era "obediente".)`,
+> [!vale]
+> No pide los 3,1 millones de transistores, pero sí que era superescalar, 2 ALUs, bus de 64 bits, Harvard. (No hacía ejecución fuera de orden: era "obediente".)`,
     },
     {
       id: "arq-u09-007",
@@ -121,7 +129,8 @@ Fue el **primer superescalar de Intel**.
 **3 · ESTRUCTURA** — varias instrucciones quieren la **misma unidad ocupada** (ej. raíz cuadrada en la FPU) → esperan.
 - Solución: **más unidades funcionales** (duplicar ALUs/FPUs).
 
-📊 **Rúbrica:** enumerar los 3 tipos, dar un ejemplo y la solución de cada uno. Omitir uno = perder puntaje.
+> [!vale]
+> Enumerar los 3 tipos, dar un ejemplo y la solución de cada uno. Omitir uno = perder puntaje.
 
 BTB = *Branch Target Buffer* · FPU = Unidad de Punto Flotante.`,
     },
@@ -148,7 +157,8 @@ BTB = *Branch Target Buffer* · FPU = Unidad de Punto Flotante.`,
 
 Entonces: el **386 es SISD** y los **modernos son MIMD**.
 
-🧠 Los modernos son MIMD a nivel de núcleos, pero cada núcleo incorpora **unidades SIMD** (MMX/SSE/AVX) para operaciones vectoriales.
+> [!nota]
+> Los modernos son MIMD a nivel de núcleos, pero cada núcleo incorpora **unidades SIMD** (MMX/SSE/AVX) para operaciones vectoriales.
 
 S/M-I-S/M-D = *Single/Multiple Instruction, Single/Multiple Data*.`,
     },
@@ -169,7 +179,8 @@ S/M-I-S/M-D = *Single/Multiple Instruction, Single/Multiple Data*.`,
 4. Todos ejecutan las mismas funciones.
 5. Un único Sistema Operativo.
 
-🧠 El bus compartido es el cuello de botella → se mitiga con cachés L1/L2/L3. Los SMP son **UMA**.`,
+> [!nota]
+> El bus compartido es el cuello de botella → se mitiga con cachés L1/L2/L3. Los SMP son **UMA**.`,
     },
     {
       id: "arq-u09-010",
@@ -203,7 +214,8 @@ SMP = *Symmetric Multiprocessing* · AMP = *Asymmetric Multiprocessing*.`,
 
 A diferencia del **SMP**, cada nodo es una **máquina entera con su propio procesador, memoria y sistema operativo** (no hay un SO único que los gobierne). Lo que **sí comparten** es el **almacenamiento** (típicamente **RAID**) por la red. El acceso a memoria es **NUMA** (heterogéneo), frente al **UMA** uniforme del SMP.
 
-🧠 **Acoplamiento débil** (vs el fuerte del SMP). **RAID**: arreglo de discos con uno redundante — si uno falla, se reconstruyen los datos. Escalan a millones de núcleos (supercomputadoras).
+> [!nota]
+> **Acoplamiento débil** (vs el fuerte del SMP). **RAID**: arreglo de discos con uno redundante: si uno falla, se reconstruyen los datos. Escalan a millones de núcleos (supercomputadoras).
 
 LAN = *Local Area Network* · RAID = *Redundant Array of Independent Disks*.`,
     },
@@ -226,7 +238,8 @@ LAN = *Local Area Network* · RAID = *Redundant Array of Independent Disks*.`,
 - **UMA** (uniforme): **mismo tiempo de acceso** a cualquier región para todos los procesadores (típico de **SMP**).
 - **NUMA** (no uniforme): el tiempo **depende de la región** de memoria / del nodo (típico de **clusters**).
 
-🧠 **CC-NUMA** = NUMA + coherencia de caché.
+> [!nota]
+> **CC-NUMA** = NUMA + coherencia de caché.
 
 UMA/NUMA = *(Non-)Uniform Memory Access*.`,
     },
@@ -248,7 +261,8 @@ UMA/NUMA = *(Non-)Uniform Memory Access*.`,
 
 **RISC** (*Reduced Instruction Set*): instrucciones **simples** (~1 ciclo), de **longitud fija**, pocos modos, acceso a memoria solo con **LOAD/STORE** y UC **cableada** (ej. ARM).
 
-💡 Hoy **convergieron**: los CISC traducen internamente sus instrucciones a **micro-ops tipo RISC** → conecta con el Front End del pipeline moderno.`,
+> [!nota]
+> Hoy **convergieron**: los CISC traducen internamente sus instrucciones a **micro-ops tipo RISC** → conecta con el Front End del pipeline moderno.`,
     },
     {
       id: "arq-u09-014",
@@ -289,7 +303,8 @@ ROB = *Reorder Buffer* · CISC = *Complex Instruction Set Computing*.`,
 - **Ventana de instrucciones / Estación de reserva** (*reservation station*): aloja las micro-ops **esperando despacho**; los despachantes (*schedulers*) las envían **fuera de orden** por los **puertos** a las unidades de ejecución.
 - **Buffer de almacenamiento** (*store buffer*): registros temporales que sostienen resultados intermedios para el **forwarding** entre instrucciones.
 
-🧠 No confundir: esos son del **Back End**. Los del **Front End** son otros (cola de instrucciones, caché de micro-ops, BPU + BTB). El **Allocator** es la frontera entre ambos.
+> [!trampa] No confundir
+> Esos son del **Back End**. Los del **Front End** son otros (cola de instrucciones, caché de micro-ops, BPU + BTB). El **Allocator** es la frontera entre ambos.
 
 ROB = *Reorder Buffer* · BPU = *Branch Prediction Unit* · BTB = *Branch Target Buffer* · OoO = *Out of Order*.`,
     },
@@ -307,7 +322,8 @@ El **ROB (Reorder Buffer)** anotó el orden de entrada y, al **retirar** (etapa 
 
 En síntesis: **se reordenan para escribirse en memoria respetando la semántica secuencial del programa.**
 
-🧠 Si piden profundizar, reordenar también habilita **excepciones precisas** (saber en qué instrucción frenar) y **revertir la especulación** (descartar un salto mal predicho antes de escribir).
+> [!nota]
+> Si piden profundizar, reordenar también habilita **excepciones precisas** (saber en qué instrucción frenar) y **revertir la especulación** (descartar un salto mal predicho antes de escribir).
 
 ROB = *Reorder Buffer* · OoO = *Out of Order*.`,
     },
@@ -321,7 +337,8 @@ ROB = *Reorder Buffer* · OoO = *Out of Order*.`,
       pista: String.raw`Analiza dependencias del flujo de datos y adelanta independientes.`,
       respuesta: String.raw`El procesador **analiza las dependencias del flujo de datos**: si una instrucción depende de un resultado no listo, ejecuta **otras independientes posteriores**; cuando el dato está listo, ejecuta la dependiente. Las **escrituras se reordenan al orden original** (ROB). Usa forwarding + registros de renombramiento.
 
-🧠 "Le digo A,B,C,D y el procesador hace A,C,B,D" = procesadores "desobedientes". Resuelve el problema de datos.
+> [!nota]
+> "Le digo A,B,C,D y el procesador hace A,C,B,D" = procesadores "desobedientes". Resuelve el problema de datos.
 
 OoO = *Out of Order*.`,
     },
@@ -343,7 +360,8 @@ OoO = *Out of Order*.`,
 - **BRANCH** · saltos · **AGU** · genera direcciones (load/store)
 - **ADD/MUL/DIV** · enteros · **AMX** · matrices (IA/cripto)
 
-🧠 Un Golden Cove tiene ~5 ALUs por núcleo → habilita el paralelismo espacial.`,
+> [!nota]
+> Un Golden Cove tiene ~5 ALUs por núcleo → habilita el paralelismo espacial.`,
     },
     {
       id: "arq-u09-019",
@@ -355,7 +373,8 @@ OoO = *Out of Order*.`,
       pista: String.raw`Aprovechar las burbujas con instrucciones de otro hilo.`,
       respuesta: String.raw`El Front End envía **2+ hilos** a ejecución, aprovechando las **burbujas** del pipeline con instrucciones de otro proceso. El procesador físico se presenta al SO como **2+ procesadores lógicos** (i9 de 8 núcleos → el SO ve 16).
 
-🧠 Nombre comercial Intel: **Hyper-Threading** (Pentium 4 HT, 2002). Contra: más registros/consumo.`,
+> [!nota]
+> Nombre comercial Intel: **Hyper-Threading** (Pentium 4 HT, 2002). Contra: más registros/consumo.`,
     },
     {
       id: "arq-u09-020",
@@ -370,7 +389,8 @@ OoO = *Out of Order*.`,
 - **Homogéneas (simétricas):** todos los núcleos **idénticos** (ej. Core 2, Core i7).
 - **Heterogéneas (asimétricas):** mezclan **núcleos de rendimiento + de eficiencia** — Intel **P-cores + E-cores** (i9-12900K: 8 P Golden Cove + 8 E Gracemont) y **big.LITTLE** de ARM (ej. Samsung S4 octacore, 2013).
 
-🧠 Otra clasificación, por **empaquetado**: **monolítica** (todos los núcleos en un solo die) vs **chiplet/MCM** (varios dies interconectados).`,
+> [!nota]
+> Otra clasificación, por **empaquetado**: **monolítica** (todos los núcleos en un solo die) vs **chiplet/MCM** (varios dies interconectados).`,
     },
     {
       id: "arq-u09-021",
@@ -382,7 +402,8 @@ OoO = *Out of Order*.`,
       pista: String.raw`Analogía de la pizza: varios chips chicos en un paquete.`,
       respuesta: String.raw`Un **MCM (Multi-Chip Module)** es un "procesador" hecho de **varios chips interconectados** en el mismo paquete. Cada chiplet: **CCD** (núcleos) e **IOD** (E/S).
 
-🧠 Ventaja (analogía pizza): chips pequeños fallan menos en fabricación (mayor yield); si uno sale mal se descarta solo ese. Permite mezclar tecnologías (CCD 7nm + IOD 12nm). Ej. AMD Ryzen. Intel lo llama TILE.
+> [!nota]
+> Ventaja (analogía pizza): chips pequeños fallan menos en fabricación (mayor yield); si uno sale mal se descarta solo ese. Permite mezclar tecnologías (CCD 7nm + IOD 12nm). Ej. AMD Ryzen. Intel lo llama TILE.
 
 MCM = *Multi-Chip Module* · CCD = *Core Complex Die* · IOD = *Input/Output Die*.`,
     },
@@ -401,7 +422,8 @@ MCM = *Multi-Chip Module* · CCD = *Core Complex Die* · IOD = *Input/Output Die
 - **Proceso:** ese programa **en ejecución**, con su propio espacio de memoria; vivo, aislado de otros procesos.
 - **Hilo:** **flujo secuencial de instrucciones dentro de un proceso**; comparte la memoria del proceso. Un proceso tiene al menos un hilo y puede tener varios.
 
-🧠 El **superescalar** exprime **UN** hilo (varias instrucciones del mismo flujo por ciclo = **ILP**). El **multinúcleo** corre **VARIOS** hilos a la vez (**TLP**). Los hilos comparten memoria (rápido, pero hay que sincronizar → *race conditions*); los procesos están aislados.
+> [!nota]
+> El **superescalar** exprime **UN** hilo (varias instrucciones del mismo flujo por ciclo = **ILP**). El **multinúcleo** corre **VARIOS** hilos a la vez (**TLP**). Los hilos comparten memoria (rápido, pero hay que sincronizar → *race conditions*); los procesos están aislados.
 
 ILP = *Instruction-Level Parallelism* · TLP = *Thread-Level Parallelism*.`,
     },
@@ -420,7 +442,8 @@ ILP = *Instruction-Level Parallelism* · TLP = *Thread-Level Parallelism*.`,
 - **Superescalar:** **más ancho**, varias vías en paralelo → paralelismo **espacial / ILP**, N resultados/ciclo (IPC máx N). Ej. Pentium 1993 (2 ALUs).
 - **Multinúcleo:** **replica el núcleo entero** → paralelismo **de hilo / TLP**, varios hilos a la vez (IPC máx N × núcleos). Ej. Core 2 · i7.
 
-⚠️ Conecta con la trampa: pipeline/superpipeline = **temporal** (1/ciclo) · superescalar = **espacial** (N/ciclo) · multinúcleo = **de hilo**. La pregunta que no falla: **¿cuántos resultados por ciclo?**
+> [!trampa]
+> Conecta con la trampa: pipeline/superpipeline = **temporal** (1/ciclo) · superescalar = **espacial** (N/ciclo) · multinúcleo = **de hilo**. La pregunta que no falla: **¿cuántos resultados por ciclo?**
 
 ILP = *Instruction-Level Parallelism* · TLP = *Thread-Level Parallelism* · IPC = *Instructions Per Clock*.`,
     },

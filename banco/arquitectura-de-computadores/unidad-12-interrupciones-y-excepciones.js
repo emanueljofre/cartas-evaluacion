@@ -1,5 +1,7 @@
 /* Mazo — Arquitectura de Computadores · Unidad 12 · Interrupciones y excepciones
-   Generado del repaso de examen (repaso-examen-modulos-08-12.html). */
+   Generado del repaso de examen (repaso-examen-modulos-08-12.html).
+   Bloques del sistema «Manual»: `> [!prof|trampa|vale|exam|nota|fx] tag`.
+   Nada de emoji como identificador de bloque (ver card-schema.md § Bloques). */
 FLASHCARDS.deck({
   materia: "arquitectura-de-computadores",
   unidad: "12-interrupciones-y-excepciones",
@@ -30,7 +32,8 @@ Diferencia central: la interrupción es de **hardware / externa / impredecible**
 3. **Atención** — carga la dirección de la ISR en el contador de programa y **ejecuta la ISR**.
 4. **Retorno** — la instrucción **IRET** hace **POP** (recupera CS, IP y flags) y vuelve al programa interrumpido.
 
-⚠️ **Trampa:** no confundir con el **ciclo de instrucción** (búsqueda → decodificación → operandos → ejecución). El ciclo de interrupción es **Solicitud → Reconocimiento → Atención → Retorno**. No tienen nada que ver — el profe avisa que esto cae en los exámenes.`,
+> [!trampa]
+> No confundir con el **ciclo de instrucción** (búsqueda → decodificación → operandos → ejecución). El ciclo de interrupción es **Solicitud → Reconocimiento → Atención → Retorno**. No tienen nada que ver, y el profe avisa que esto cae en los exámenes.`,
       pista: String.raw`Nombralas completas y en castellano. Acordate del "ciclo INTA" en las dos primeras.`,
       tags: ["clave", "examen", "trampa", "ciclo"],
       fuente: ["arquitectura-de-computadores/repasos/repaso-examen-modulos-08-12.html","arquitectura-de-computadores/repasos/respuestas-examen-modulos-08-12.md"],
@@ -123,7 +126,8 @@ Se ubica **al inicio de la memoria principal**. Mapa: Tipo 0 → $00000_{16}$–
 
 Es el **"contexto"** para volver exactamente a donde estaba: "me anoto en la billetera dónde estoy (dirección) y hasta qué ejercicio llegué (flags)".
 
-⚠️ **Trampa:** el hardware guarda **solo CS:IP + flags** (el mínimo para volver). Los **registros de datos** (AX, BX…) **no** los salva el hardware: como la ISR los va a pisar, es la **propia ISR (software)** la que hace PUSH/POP de los que usa, al entrar y antes del IRET.`,
+> [!trampa]
+> El hardware guarda **solo CS:IP + flags** (el mínimo para volver). Los **registros de datos** (AX, BX…) **no** los salva el hardware: como la ISR los va a pisar, es la **propia ISR (software)** la que hace PUSH/POP de los que usa, al entrar y antes del IRET.`,
       pista: String.raw`Solo el "contexto" mínimo: contador de programa + flags.`,
       tags: ["clave", "trampa", "pila", "push"],
       fuente: ["arquitectura-de-computadores/repasos/repaso-examen-modulos-08-12.html","arquitectura-de-computadores/repasos/respuestas-examen-modulos-08-12.md"],
@@ -159,7 +163,8 @@ Por qué no las otras:
 - Es al revés: la **enmascarable** es condicional (IF la puede ignorar); la NMI es inevitable.
 - La NMI **no** lee su Tipo del dispositivo: es **fijo (Tipo 2)** y **no** ejecuta el Reconocimiento como las normales.
 
-⚠️ **Trampa:** la analogía del "incendio" es solo didáctica; en el examen la NMI son **errores graves de memoria/disco**, no "se prendió fuego".`,
+> [!trampa]
+> La analogía del "incendio" es solo didáctica; en el examen la NMI son **errores graves de memoria/disco**, no "se prendió fuego".`,
       pista: String.raw`Pensá si el flag IF puede o no apagar a la NMI.`,
       tags: ["clave", "examen", "nmi", "enmascarable"],
       fuente: ["arquitectura-de-computadores/repasos/repaso-examen-modulos-08-12.html","arquitectura-de-computadores/repasos/respuestas-examen-modulos-08-12.md"],

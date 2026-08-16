@@ -1,5 +1,7 @@
 /* Mazo — Arquitectura de Computadores · Unidad 11 · Unidad de Entrada/Salida
-   Generado del repaso de examen (repaso-examen-modulos-08-12.html). */
+   Generado del repaso de examen (repaso-examen-modulos-08-12.html).
+   Bloques del sistema «Manual»: `> [!prof|trampa|vale|exam|nota|fx] tag`.
+   Nada de emoji como identificador de bloque (ver card-schema.md § Bloques). */
 FLASHCARDS.deck({
   materia: "arquitectura-de-computadores",
   unidad: "11-entrada-salida",
@@ -34,7 +36,8 @@ Las **5 funciones**:
 4. **Almacenamiento temporal** (buffers, adaptan velocidades)
 5. **Detección de errores** (paridad, Hamming)
 
-⚠️ **Trampa:** la función que NO cumple del lado del periférico es **reconocer direcciones** (las envía el CPU).`,
+> [!trampa]
+> La función que NO cumple del lado del periférico es **reconocer direcciones** (las envía el CPU).`,
     },
     {
       id: "arq-u11-003",
@@ -49,7 +52,8 @@ Las **5 funciones**:
 - **Estado** — la CPU **lee**; representa la situación (listo/ocupado/error).
 - **Datos** — la CPU **lee y escribe**; los datos del intercambio.
 
-⚠️ **Trampa:** **no hay "puerto de direcciones"**. La dirección no es un puerto: es lo que **selecciona** cuál de los 3 (cada puerto tiene su dirección única). El CPU la pone en el **bus de direcciones** y el **decodificador** del módulo elige el registro.`,
+> [!trampa]
+> **No hay "puerto de direcciones"**. La dirección no es un puerto: es lo que **selecciona** cuál de los 3 (cada puerto tiene su dirección única). El CPU la pone en el **bus de direcciones** y el **decodificador** del módulo elige el registro.`,
     },
     {
       id: "arq-u11-004",
@@ -67,7 +71,8 @@ Las **5 funciones**:
 
 El DMA y los Canales son los más eficientes porque **no pasan por el CPU**; las dos primeras usan **AIM (Acceso Indirecto a Memoria)** = el dato pasa por los registros del CPU → pierde ciclos.
 
-⚠️ **Trampa:** los **Canales** son la 4ª modalidad que se pierden los que estudian de apuntes viejos de solo 3 modalidades. La diferencia clave: el **canal-procesador tiene memoria propia**.`,
+> [!trampa]
+> Los **Canales** son la 4ª modalidad que se pierden los que estudian de apuntes viejos de solo 3 modalidades. La diferencia clave: el **canal-procesador tiene memoria propia**.`,
       pista: String.raw`Siglas: AIM = Acceso Indirecto a Memoria · DMA/ADM = *Direct Memory Access* / Acceso Directo a Memoria.`,
     },
     {

@@ -1,6 +1,8 @@
 /* Mazo — Álgebra · Unidad 05 · Relaciones
    Tema exclusivo del FINAL (no entró en parciales).
-   Campos de contenido: SIEMPRE String.raw`...` (LaTeX literal). */
+   Campos de contenido: SIEMPRE String.raw`...` (LaTeX literal).
+   Bloques del sistema «Manual»: `> [!prof|trampa|vale|exam|nota|fx] tag`.
+   Nada de emoji como identificador de bloque (ver card-schema.md § Bloques). */
 FLASHCARDS.deck({
   materia: "algebra",
   unidad: "05-relaciones",
@@ -257,7 +259,8 @@ Si $x$ se relaciona con $y$ e $y$ con $z$, entonces $x$ con $z$. Los pares refle
 
 $M \odot M$ se calcula como un producto de matrices pero con $\cdot = \land$ (y) y $+ = \lor$ (o). Es transitiva si $M \odot M$ **no agrega ningún 1** fuera de $M$.
 
-⚠️ **No** es "$M^{2} = M$": basta con que cada 1 de $M \odot M$ ya esté en $M$.`,
+> [!trampa]
+> **No** es "$M^{2} = M$": basta con que cada 1 de $M \odot M$ ya esté en $M$.`,
     },
     {
       id: "alg-u05-024", tipo: "opcion-multiple", dificultad: "dificil",

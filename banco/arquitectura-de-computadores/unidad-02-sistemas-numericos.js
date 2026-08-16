@@ -1,6 +1,8 @@
 /* Mazo — Arquitectura de Computadores · Unidad 02 · Sistemas Numéricos
    Fuentes: resumen.md + cheatsheet (final) + parcial-2026-1.md + preguntas-anunciadas + apunte.
-   Campos de contenido SIEMPRE en String.raw. Alcance: FINAL (toda la parte numérica entra). */
+   Campos de contenido SIEMPRE en String.raw. Alcance: FINAL (toda la parte numérica entra).
+   Bloques del sistema «Manual»: `> [!prof|trampa|vale|exam|nota|fx] tag`.
+   Nada de emoji como identificador de bloque (ver card-schema.md § Bloques). */
 FLASHCARDS.deck({
   materia: "arquitectura-de-computadores",
   unidad: "02-sistemas-numericos",
@@ -196,7 +198,8 @@ $$51966_{10} = \text{CAFE}_{16}$$` },
 
 $$507396_{10} = \text{7BE04}_{16}$$
 
-🚨 No te comas el grupo $0000$: cada 4 bits es un dígito aunque sea cero.` },
+> [!trampa]
+> No te comas el grupo $0000$: cada 4 bits es un dígito aunque sea cero.` },
           { pregunta: String.raw`Pasá $1000000_{10}$ a hexadecimal.`, respuesta: String.raw`$1000000 = 1111\ 0100\ 0010\ 0100\ 0000_{2}$ → $\text{F},4,2,4,0$:
 
 $$1000000_{10} = \text{F4240}_{16}$$` },
@@ -553,7 +556,8 @@ $$-10 = 10110_{2}$$` },
 
 $$-199 = 100111001_{2}$$
 
-🚨 Si invertís sin agregar antes el bit de signo, da positivo.` },
+> [!trampa]
+> Si invertís sin agregar antes el bit de signo, da positivo.` },
           { pregunta: String.raw`Escribí $-130$ en Ca2.`, respuesta: String.raw`1. $130 = 10000010_{2}$
 2. Bit de signo 0: $010000010$
 3. Invertir + 1: $101111101 + 1$

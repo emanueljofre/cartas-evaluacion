@@ -2,7 +2,9 @@
    Fuentes: resumen.md (reencuadrado al final) + cheatsheet + parcial-2026-1.md + preguntas-anunciadas + apunte.
    Campos de contenido SIEMPRE en String.raw. Alcance: FINAL (entra todo el apunte: cálculos, códigos y unidades).
    Complementa el mazo de la U02 (sistemas numéricos): acá van reales/punto flotante, coma fija, códigos y unidades;
-   no se repiten 193→C1 ni −199 (ya están en U02). */
+   no se repiten 193→C1 ni −199 (ya están en U02).
+   Bloques del sistema «Manual»: `> [!prof|trampa|vale|exam|nota|fx] tag`.
+   Nada de emoji como identificador de bloque (ver card-schema.md § Bloques). */
 FLASHCARDS.deck({
   materia: "arquitectura-de-computadores",
   unidad: "03-numeros-reales-y-codigos",
@@ -52,7 +54,8 @@ Exponente almacenado $=$ exponente real $+\ 127$. **Siempre 127**, sin importar 
       pregunta: String.raw`¿Cómo se determina el signo de un negativo en IEEE 754 y por qué **no** se usa complemento a 2?`,
       respuesta: String.raw`El signo es **solo el bit** $b_{31}=1$. El número está en **otro formato** (punto flotante), así que la mantisa **no** se complementa ni se usa Ca2.
 
-🚨 Mezclar Ca2 con punto flotante es el error que el profe corrige ("si es negativo usar complemento a 2, pero acá no se usa").`,
+> [!trampa]
+> Mezclar Ca2 con punto flotante es el error que el profe corrige ("si es negativo usar complemento a 2, pero acá no se usa").`,
     },
     {
       id: "arq-u03-005",
@@ -101,7 +104,8 @@ $$-123 = \text{C2F60000}_{16}$$` },
 
 $$-19{,}3 \approx \text{C19A6666}_{16}$$
 
-🚨 No se usa Ca2 por ser negativo: el signo es solo $b_{31}$.` },
+> [!trampa]
+> No se usa Ca2 por ser negativo: el signo es solo $b_{31}$.` },
           { pregunta: String.raw`Pasá $+0{,}1_{10}$ a IEEE-754 simple.`, respuesta: String.raw`$0{,}1$ es **periódico** en binario: $1{,}10011001\dots_{2}\times2^{-4}$. Signo $0$; exp $-4+127 = 123 = 01111011$; mantisa redondeada:
 
 $$+0{,}1 \approx \text{3DCCCCCD}_{16}$$` },
@@ -295,7 +299,8 @@ $$6{,}625_{10} = 110{,}101_{2}$$` },
 
 $$0{,}2_{10} = 0{,}\overline{0011}\dots_{2}\ (\text{periódico})$$
 
-🚨 No es finito: en IEEE-754 se **trunca/redondea** la mantisa (de ahí el error de redondeo).` },
+> [!trampa]
+> No es finito: en IEEE-754 se **trunca/redondea** la mantisa (de ahí el error de redondeo).` },
           { pregunta: String.raw`Convertí $0{,}1$ a binario.`, respuesta: String.raw`$0{,}1\times2=0{,}2\to0$; luego entra en el mismo ciclo que $0{,}2$:
 
 $$0{,}1_{10} = 0{,}0\overline{0011}\dots_{2}\ (\text{periódico})$$
@@ -521,7 +526,8 @@ $$60_{10} = 0110\ 0000_{\text{BCD}}$$` },
 
 $$208_{10} = 0010\ 0000\ 1000_{\text{BCD}}$$
 
-⚠️ No confundir con binario sin signo ($208 = 11010000_{2}$).` },
+> [!trampa]
+> No confundir con binario sin signo ($208 = 11010000_{2}$).` },
           { pregunta: String.raw`Codificá $512_{10}$ en BCD.`, respuesta: String.raw`$5\to0101$, $1\to0001$, $2\to0010$:
 
 $$512_{10} = 0101\ 0001\ 0010_{\text{BCD}}$$` },

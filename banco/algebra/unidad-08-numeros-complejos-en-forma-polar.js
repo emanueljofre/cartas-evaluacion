@@ -1,7 +1,9 @@
 /* Mazo — Álgebra · Unidad 08 · Números Complejos (forma polar)
    Parte 2 de "Números Complejos" (Unidad 6 del programa). Entra en el final.
-   ⭐ Incluye RADICACIÓN (raíces n-ésimas): confirmada para el final (oral 2026-06-16).
-   Campos de contenido: SIEMPRE String.raw`...` (LaTeX literal). */
+   Incluye RADICACIÓN (raíces n-ésimas): confirmada para el final (oral 2026-06-16).
+   Campos de contenido: SIEMPRE String.raw`...` (LaTeX literal).
+   Bloques del sistema «Manual»: `> [!prof|trampa|vale|exam|nota|fx] tag`.
+   Nada de emoji como identificador de bloque (ver card-schema.md § Bloques). */
 FLASHCARDS.deck({
   materia: "algebra",
   unidad: "08-numeros-complejos-en-forma-polar",
@@ -47,7 +49,8 @@ Además $z\cdot\bar{z}=|z|^{2}$. Permiten hallar el módulo de un producto/cocie
       pregunta: String.raw`¿Qué es el argumento de $z$ y por qué hay que tener cuidado al calcularlo?`,
       respuesta: String.raw`Es el ángulo $\theta$ desde el semieje $+\mathrm{Re}$ hasta el vector, medido **antihorario**: $\tan\theta = \dfrac{b}{a}\Rightarrow\theta=\arctan\!\big(\tfrac{b}{a}\big)$.
 
-⚠️ La calculadora **no distingue el cuadrante** (da el ángulo de referencia $\alpha$). Hay que **graficar primero** y corregir según el cuadrante.`,
+> [!trampa]
+> La calculadora **no distingue el cuadrante** (da el ángulo de referencia $\alpha$). Hay que **graficar primero** y corregir según el cuadrante.`,
     },
     {
       id: "alg-u08-005", tipo: "completar", dificultad: "dificil",
@@ -307,7 +310,7 @@ $$u/v=(6/3)\,e^{i(\pi/4-\pi/4)}=2\,e^{0}=2$$`,
       respuesta: String.raw`Para **suma y resta** no hay fórmula en polar → conviene quedarse en binómica. Polar gana en producto, cociente, potencia y radicación (los ángulos se acumulan).`,
     },
 
-    // ── ⭐ Radicación (raíces n-ésimas) — entra en el FINAL ──
+    // ── Radicación (raíces n-ésimas): entra en el FINAL ──
     {
       id: "alg-u08-020", tipo: "concepto", dificultad: "media",
       tags: ["radicacion", "raices-n-esimas", "final"],

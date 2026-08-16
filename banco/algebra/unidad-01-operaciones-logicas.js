@@ -1,6 +1,8 @@
 /* Mazo seed — Álgebra · Unidad 01 · Operaciones lógicas
    Contenido en los campos pregunta/respuesta: usar SIEMPRE String.raw`...`
-   para que el LaTeX (\to, \land, \begin{array}…) se escriba tal cual. */
+   para que el LaTeX (\to, \land, \begin{array}…) se escriba tal cual.
+   Bloques del sistema «Manual»: `> [!prof|trampa|vale|exam|nota|fx] tag`.
+   Nada de emoji como identificador de bloque (ver card-schema.md § Bloques). */
 FLASHCARDS.deck({
   materia: "algebra",
   unidad: "01-operaciones-logicas",

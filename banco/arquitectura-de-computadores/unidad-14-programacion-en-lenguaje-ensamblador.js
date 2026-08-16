@@ -1,5 +1,7 @@
 /* Mazo seed — Arquitectura de Computadores · Unidad 14 · Ensamblador
-   Demuestra el tipo `codigo` y el caso cross-materia. fuente: "seed". */
+   Demuestra el tipo `codigo` y el caso cross-materia. fuente: "seed".
+   Bloques del sistema «Manual»: `> [!prof|trampa|vale|exam|nota|fx] tag`.
+   Nada de emoji como identificador de bloque (ver card-schema.md § Bloques). */
 FLASHCARDS.deck({
   materia: "arquitectura-de-computadores",
   unidad: "14-programacion-en-lenguaje-ensamblador",

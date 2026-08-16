@@ -1,5 +1,7 @@
 /* Mazo seed — Álgebra · Unidad 02 · Razonamientos y cuantificadores
-   Campos de contenido con String.raw`...` (LaTeX literal). */
+   Campos de contenido con String.raw`...` (LaTeX literal).
+   Bloques del sistema «Manual»: `> [!prof|trampa|vale|exam|nota|fx] tag`.
+   Nada de emoji como identificador de bloque (ver card-schema.md § Bloques). */
 FLASHCARDS.deck({
   materia: "algebra",
   unidad: "02-razonamientos",

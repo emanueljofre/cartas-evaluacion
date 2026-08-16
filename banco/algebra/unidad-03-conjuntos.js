@@ -1,7 +1,9 @@
 /* Mazo — Álgebra · Unidad 03 · Conjuntos
    Contenido en los campos pregunta/respuesta: usar SIEMPRE String.raw`...`
    para que el LaTeX (\cup, \cap, \begin{aligned}…) se escriba tal cual.
-   Enfoque FINAL: propiedades de memoria, demostración y simplificación. */
+   Enfoque FINAL: propiedades de memoria, demostración y simplificación.
+   Bloques del sistema «Manual»: `> [!prof|trampa|vale|exam|nota|fx] tag`.
+   Nada de emoji como identificador de bloque (ver card-schema.md § Bloques). */
 FLASHCARDS.deck({
   materia: "algebra",
   unidad: "03-conjuntos",

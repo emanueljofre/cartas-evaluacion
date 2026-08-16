@@ -1,7 +1,9 @@
 /* Mazo — Álgebra · Unidad 04 · Conteo
    Contenido en los campos pregunta/respuesta: usar SIEMPRE String.raw`...`
    para que el LaTeX (\#, \cup, \cap, \varnothing, \begin{aligned}…) se escriba tal cual.
-   Enfoque FINAL: inclusión-exclusión, Venn/Carroll, "exactamente/al menos". NO combinatoria. */
+   Enfoque FINAL: inclusión-exclusión, Venn/Carroll, "exactamente/al menos". NO combinatoria.
+   Bloques del sistema «Manual»: `> [!prof|trampa|vale|exam|nota|fx] tag`.
+   Nada de emoji como identificador de bloque (ver card-schema.md § Bloques). */
 FLASHCARDS.deck({
   materia: "algebra",
   unidad: "04-conteo",

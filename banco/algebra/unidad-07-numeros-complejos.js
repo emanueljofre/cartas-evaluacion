@@ -1,6 +1,8 @@
 /* Mazo — Álgebra · Unidad 07 · Números Complejos (forma binómica)
    Parte 1 de "Números Complejos" (Unidad 6 del programa). Entra en el final.
-   Campos de contenido: SIEMPRE String.raw`...` (LaTeX literal). */
+   Campos de contenido: SIEMPRE String.raw`...` (LaTeX literal).
+   Bloques del sistema «Manual»: `> [!prof|trampa|vale|exam|nota|fx] tag`.
+   Nada de emoji como identificador de bloque (ver card-schema.md § Bloques). */
 FLASHCARDS.deck({
   materia: "algebra",
   unidad: "07-numeros-complejos",

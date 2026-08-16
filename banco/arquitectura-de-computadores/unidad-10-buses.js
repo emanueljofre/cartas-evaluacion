@@ -1,5 +1,7 @@
 /* Mazo — Arquitectura de Computadores · Unidad 10 · Buses
-   Generado del repaso de examen (repaso-examen-modulos-08-12.html). */
+   Generado del repaso de examen (repaso-examen-modulos-08-12.html).
+   Bloques del sistema «Manual»: `> [!prof|trampa|vale|exam|nota|fx] tag`.
+   Nada de emoji como identificador de bloque (ver card-schema.md § Bloques). */
 FLASHCARDS.deck({
   materia: "arquitectura-de-computadores",
   unidad: "10-buses",
@@ -34,7 +36,8 @@ FLASHCARDS.deck({
 - **Bus de direcciones** · designa el origen/destino del dato (posición de memoria o puerto). Con $n$ líneas → $2^{n}$ posiciones direccionables. **NO es bidireccional**: siempre del CPU hacia afuera.
 - **Bus de control** · coordina el acceso: comandos (Memory R/W, I/O R/W), tiempos, IRQ, Bus grant, Clock, Reset. **Bidireccional**.
 
-⚠️ **Trampa:** **solo el bus de DIRECCIONES no es bidireccional** (siempre del CPU hacia memoria/E/S). Datos y control SÍ son bidireccionales. Ojo también: el bus de datos **no es exclusivo de datos** — también lleva instrucciones.`,
+> [!trampa]
+> **Solo el bus de DIRECCIONES no es bidireccional** (siempre del CPU hacia memoria/E/S). Datos y control SÍ son bidireccionales. Ojo también: el bus de datos **no es exclusivo de datos**, también lleva instrucciones.`,
       pista: String.raw`Datos, direcciones y control. Solo uno de los tres no es bidireccional.`,
     },
     {
@@ -81,7 +84,8 @@ La placa genera una frecuencia base y el procesador **la multiplica internamente
 - **Ciclo de bus** · completo / partido (time-slots).
 - **Arbitraje** · centralizado / distribuido.
 
-⚠️ **Trampa:** en ancho de banda, **"por unidad de tiempo"** es obligatorio para el punto.`,
+> [!vale]
+> En ancho de banda, **"por unidad de tiempo"** es obligatorio para el punto.`,
     },
     {
       id: "arq-u10-006",
@@ -99,7 +103,8 @@ La placa genera una frecuencia base y el procesador **la multiplica internamente
 - **Thunderbolt** · PCIe + DisplayPort + energía (USB-C).
 - **Ethernet** (RJ45) · **Wi-Fi** (802.11).
 
-💡 El profe forzó la distinción: **bus ≠ puerto ≠ conector**. M.2 es un *conector* (el bus que corre es PCIe); USB nombra el bus y el conector.`,
+> [!nota]
+> El profe forzó la distinción: **bus ≠ puerto ≠ conector**. M.2 es un *conector* (el bus que corre es PCIe); USB nombra el bus y el conector.`,
     },
     {
       id: "arq-u10-007",
@@ -122,7 +127,10 @@ La placa genera una frecuencia base y el procesador **la multiplica internamente
 - **dedicado** → menor latencia, ancho de banda dedicado, sin arbitraje.
 - varios lanes en paralelo = más ancho de banda (PCIe, SATA, USB).
 
-💡 El profe: *el cambio más grande de los últimos años* — la conexión directa CPU↔SSD por PCIe llevó los discos de ~100 a ~7000 MB/s.
+> [!prof] el profe
+> «el cambio más grande de los últimos años»
+
+La conexión directa CPU↔SSD por PCIe llevó los discos de ~100 a ~7000 MB/s.
 
 (HSIO = *High Speed Input/Output* Lanes.)`,
       pista: String.raw`Serial dedicada vs medio compartido. Señales diferenciales.`,

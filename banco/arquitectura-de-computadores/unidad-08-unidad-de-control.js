@@ -1,5 +1,7 @@
 /* Mazo — Arquitectura de Computadores · Unidad 08 · Unidad de Control
-   Generado del repaso de examen (repaso-examen-modulos-08-12.html). */
+   Generado del repaso de examen (repaso-examen-modulos-08-12.html).
+   Bloques del sistema «Manual»: `> [!prof|trampa|vale|exam|nota|fx] tag`.
+   Nada de emoji como identificador de bloque (ver card-schema.md § Bloques). */
 FLASHCARDS.deck({
   materia: "arquitectura-de-computadores",
   unidad: "08-unidad-de-control",
@@ -59,7 +61,8 @@ $$\text{MOV AX,1A3F} \rightarrow [\text{COP}=B8_{16}]\,[3F_{16}]\,[1A_{16}] = B8
 
 Traducida a **código máquina ocupa 3 bytes**. El **COP es $B8_{16}$** y ya codifica «MOV a AX» (operación + registro destino) — por eso es lo único que se decodifica. Los otros dos bytes ($3F_{16}\,1A_{16}$) son el operando \`1A3F\` guardado en **little-endian** (el byte bajo $3F_{16}$ va primero, después el alto $1A_{16}$).
 
-⚠️ **Trampa:** la computadora **no "busca el COP", busca una instrucción** completa que adentro tiene el COP — el COP no anda suelto en memoria.`,
+> [!trampa]
+> La computadora **no "busca el COP", busca una instrucción** completa que adentro tiene el COP: el COP no anda suelto en memoria.`,
       tags: ["formato-de-instruccion", "cop", "little-endian", "clave"],
       fuente: ["arquitectura-de-computadores/repasos/repaso-examen-modulos-08-12.html","arquitectura-de-computadores/repasos/respuestas-examen-modulos-08-12.md"],
     },
@@ -74,7 +77,10 @@ Traducida a **código máquina ocupa 3 bytes**. El **COP es $B8_{16}$** y ya cod
 
 La **ISA (Instruction Set Architecture)** es el concepto formal y más amplio: además del set de instrucciones, define los **registros**, los **tipos de datos**, los **modos de direccionamiento** y el **modelo de memoria**. Es la **interfaz (contrato) entre el hardware y el software de bajo nivel** —código máquina y assembler—: a partir de estas instrucciones el programador o el compilador **construyen** los programas (la instrucción es el ladrillo).
 
-**¿Dónde está?** La ISA en sí es una **especificación** (el contrato visible al programador); lo que está **físicamente en la memoria de control (ROM de control)** —dentro de la UC— es el **microprograma que la implementa** (en una UC microprogramada; una UC **cableada** corre la misma ISA sin ROM). ⚠️ El profe lo resume como *«la ISA se encuentra en la ROM de control»*.
+**¿Dónde está?** La ISA en sí es una **especificación** (el contrato visible al programador); lo que está **físicamente en la memoria de control (ROM de control)** —dentro de la UC— es el **microprograma que la implementa** (en una UC microprogramada; una UC **cableada** corre la misma ISA sin ROM).
+
+> [!prof] el profe
+> «la ISA se encuentra en la ROM de control»
 
 Dos ISA distintas (x86 vs ARM) son **incompatibles** (*"como francés y alemán"*), pero un mismo binario corre en cualquier implementación física de la misma ISA. Dos filosofías: **CISC** (muchas instrucciones complejas, x86) vs **RISC** (pocas, simples y uniformes, ARM/RISC-V).`,
       pista: String.raw`Contrato HW↔SW; vive en la ROM de control.`,
@@ -97,7 +103,8 @@ Dos ISA distintas (x86 vs ARM) son **incompatibles** (*"como francés y alemán"
 - Cableada = COP → hardware directo.
 - Microprogramada = COP → dirección → microprograma → señales.
 
-💡 Casi no hay procesadores de escritorio con UC cableada pura: suelen ser **mixtos** (cableada para instrucciones sencillas, microprogramada para complejas).`,
+> [!nota]
+> Casi no hay procesadores de escritorio con UC cableada pura: suelen ser **mixtos** (cableada para instrucciones sencillas, microprogramada para complejas).`,
       pista: String.raw`Cableada: COP→hardware. Microprogramada: COP→dirección→microprograma.`,
       tags: ["uc-cableada", "uc-microprogramada", "cop", "clave"],
       fuente: ["arquitectura-de-computadores/repasos/repaso-examen-modulos-08-12.html","arquitectura-de-computadores/repasos/respuestas-examen-modulos-08-12.md"],
@@ -120,7 +127,8 @@ Dos ISA distintas (x86 vs ARM) son **incompatibles** (*"como francés y alemán"
 
 En el 8086, PC = **CS:IP**. Modos: normal · salto · indirección.
 
-⚠️ **Trampa del profe (textual):** *"el contador de programa NO tiene la instrucción, tiene la dirección de la PRÓXIMA, no la de ahora, la próxima."* La instrucción actual está en el **IR (Registro de Instrucción)**, no en el PC.`,
+> [!trampa] Trampa del profe
+> *"el contador de programa NO tiene la instrucción, tiene la dirección de la PRÓXIMA, no la de ahora, la próxima."* La instrucción actual está en el **IR (Registro de Instrucción)**, no en el PC.`,
       tags: ["contador-de-programa", "pc-vs-ir", "trampa", "clave"],
       fuente: ["arquitectura-de-computadores/repasos/repaso-examen-modulos-08-12.html","arquitectura-de-computadores/repasos/respuestas-examen-modulos-08-12.md"],
     },
@@ -140,7 +148,11 @@ En el 8086, PC = **CS:IP**. Modos: normal · salto · indirección.
 
 En el procesador básico la **escritura** del resultado va dentro de la ejecución; con pipeline (Pentium) es una **etapa separada (Escritura / Writeback)**.
 
-📊 **RÚBRICA:** *"No me pongan FI, DI, FO, EX. Escríbanme qué es cada cosa en castellano y completo."* ⚠️ **No confundir con el ciclo de interrupción** (Solicitud → Reconocimiento → Atención → Retorno).`,
+> [!vale]
+> *"No me pongan FI, DI, FO, EX. Escríbanme qué es cada cosa en castellano y completo."*
+
+> [!trampa]
+> **No confundir con el ciclo de interrupción** (Solicitud → Reconocimiento → Atención → Retorno).`,
       pista: String.raw`Cuatro etapas; la 3ª es condicional.`,
       tags: ["ciclo-de-instruccion", "rubrica", "if-id-of-ex", "clave"],
       fuente: ["arquitectura-de-computadores/repasos/repaso-examen-modulos-08-12.html","arquitectura-de-computadores/repasos/respuestas-examen-modulos-08-12.md"],
@@ -178,7 +190,8 @@ En el procesador básico la **escritura** del resultado va dentro de la ejecuci�
 - **NO necesita OF** (ya disponible) → **implícito** (en el COP, \`INC AX\`), **inmediato** (literal en la instrucción, \`ADD AX, 4\`) y cuando el operando ya está **en un registro** (\`ADD AX, BX\` → acceso interno, no toca la MP).
 - **SÍ necesita OF** (está en memoria) → **directo** (\`[120]\`), **indirecto de registro** (\`[BX]\`: el registro tiene la *dirección*, el dato está en MP) e **indirecto** (puntero→puntero, varios accesos).
 
-⚠️ Lo que dispara la OF es que el dato esté **en memoria**: \`BX\` (operando en el registro) → **NO**; \`[BX]\` (lo que BX apunta, en MP) → **SÍ**.`,
+> [!trampa]
+> Lo que dispara la OF es que el dato esté **en memoria**: \`BX\` (operando en el registro) → **NO**; \`[BX]\` (lo que BX apunta, en MP) → **SÍ**.`,
       tags: ["busqueda-de-operandos", "direccionamiento", "trampa"],
       fuente: ["arquitectura-de-computadores/repasos/repaso-examen-modulos-08-12.html","arquitectura-de-computadores/repasos/respuestas-examen-modulos-08-12.md"],
     },
@@ -230,7 +243,8 @@ En el procesador básico la escritura va dentro de la ejecución; con **pipeline
       correcta: 1,
       respuesta: String.raw`Al **final de cada ciclo de instrucción** (último pulso de reloj), la UC chequea si hay una solicitud **enmascarable** pendiente (si el flag IF lo permite). Las **no enmascarables (NMI)** no esperan: suspenden el ciclo en cualquier punto.
 
-🧠 El **DMA** también puede frenar el ciclo en ciertos puntos → *"robo de ciclo"* (es **robo de bus**, **NO una interrupción**: el CPU pierde 1 ciclo pero no salta a ninguna rutina). La interrupción real del DMA llega **al terminar** la transferencia.`,
+> [!nota]
+> El **DMA** también puede frenar el ciclo en ciertos puntos → *"robo de ciclo"* (es **robo de bus**, **NO una interrupción**: el CPU pierde 1 ciclo pero no salta a ninguna rutina). La interrupción real del DMA llega **al terminar** la transferencia.`,
       tags: ["interrupciones", "nmi", "robo-de-ciclo", "trampa"],
       fuente: ["arquitectura-de-computadores/repasos/repaso-examen-modulos-08-12.html","arquitectura-de-computadores/repasos/respuestas-examen-modulos-08-12.md"],
     },
@@ -247,7 +261,8 @@ En el procesador básico la escritura va dentro de la ejecución; con **pipeline
 - **Procesador moderno:** palabra = 64 bits = 8 bytes
 - **Primeros procesadores:** 4 y 8 bits
 
-⚠️ **No confundir con la palabra de memoria:** la del **procesador** es cuánto opera/transmite el CPU *de una vez*; la de **memoria** es lo que entra en cada dirección de la RAM. El procesador pide **UNA palabra**; la RAM/caché le trae un **BLOQUE** entero (localidad). En **x86 moderno QWORD = 64 bits**.`,
+> [!trampa] No confundir con la palabra de memoria
+> La del **procesador** es cuánto opera/transmite el CPU *de una vez*; la de **memoria** es lo que entra en cada dirección de la RAM. El procesador pide **UNA palabra**; la RAM/caché le trae un **BLOQUE** entero (localidad). En **x86 moderno QWORD = 64 bits**.`,
       pista: String.raw`Ancho del camino de datos: registros GP + ALU. Siempre múltiplo de 8.`,
       tags: ["longitud-de-palabra", "procesador", "trampa"],
       fuente: ["arquitectura-de-computadores/repasos/repaso-examen-modulos-08-12.html","arquitectura-de-computadores/repasos/respuestas-examen-modulos-08-12.md"],
@@ -265,7 +280,11 @@ En las **DRAM** suele ser de **8 bits = 1 byte**: cada palabra de 8 bits está f
 
 La memoria se organiza en una **matriz de filas × columnas**; cada **fila = una palabra** de $n$ bits accesibles en paralelo.
 
-⚠️ No confundir con el **ancho de la dirección**: esos bits definen *cuántas* posiciones hay ($2^n$), no el tamaño de cada palabra. ⚠️ Distinta de la palabra del procesador: un CPU de 64 bits pide su palabra de 8 bytes, pero la RAM la sirve leyendo varias palabras de memoria y **trae un bloque completo a la caché** (localidad espacial).`,
+> [!trampa] No confundir con el ancho de la dirección
+> Esos bits definen *cuántas* posiciones hay ($2^n$), no el tamaño de cada palabra.
+
+> [!trampa] Distinta de la palabra del procesador
+> Un CPU de 64 bits pide su palabra de 8 bytes, pero la RAM la sirve leyendo varias palabras de memoria y **trae un bloque completo a la caché** (localidad espacial).`,
       pista: String.raw`Bits por posición direccionable de la RAM (una fila de la matriz).`,
       tags: ["longitud-de-palabra", "memoria", "dram", "trampa"],
       fuente: ["arquitectura-de-computadores/repasos/repaso-examen-modulos-08-12.html","arquitectura-de-computadores/repasos/respuestas-examen-modulos-08-12.md"],
@@ -303,7 +322,8 @@ No confundir los buses: el **bus de direcciones** dice *QUÉ* posición → fija
 
 Su set de 32 bits lo mantienen todos los x86. UC microprogramada.
 
-🧠 El profe **no pide dibujar** su diagrama; importa ver cómo el ciclo **IF-ID-OF-EX** está implementado en hardware real.`,
+> [!exam] Alcance
+> El profe **no pide dibujar** su diagrama; importa ver cómo el ciclo **IF-ID-OF-EX** está implementado en hardware real.`,
       pista: String.raw`1985: 32 bits, MMU 4 GB, memoria virtual paginada, modo protegido.`,
       tags: ["80386", "32-bits", "mmu", "memoria-virtual"],
       fuente: ["arquitectura-de-computadores/repasos/repaso-examen-modulos-08-12.html","arquitectura-de-computadores/repasos/respuestas-examen-modulos-08-12.md"],
@@ -323,7 +343,8 @@ Su set de 32 bits lo mantienen todos los x86. UC microprogramada.
 - **Indirecto:** apunta a una dirección que contiene otra dirección (puntero a puntero); el 8086 **no lo usa**. Ej. —
 - **Indirecto de registro:** un registro contiene la *dirección* del operando. Ej. \`ADD DL, [BX]\`.
 
-📊 De los 7 modos del 8086 entran estos **5 básicos**; lo más probable es *"mencióneme 3 modos"*. Los 2 complejos (basado/indexado) **no entran**.`,
+> [!exam]
+> De los 7 modos del 8086 entran estos **5 básicos**; lo más probable es *"mencióneme 3 modos"*. Los 2 complejos (basado/indexado) **no entran**.`,
       pista: String.raw`Implícito, inmediato, directo, indirecto, indirecto de registro.`,
       tags: ["modos-de-direccionamiento", "8086", "operando"],
       fuente: ["arquitectura-de-computadores/repasos/repaso-examen-modulos-08-12.html","arquitectura-de-computadores/repasos/respuestas-examen-modulos-08-12.md"],
@@ -356,7 +377,8 @@ El hardware solo entiende código máquina; lo que cambia es **cuándo** se trad
 
 Para correrlo igual se usa **virtualización**: una capa de software (**máquina virtual** / emulador) que **traduce o interpreta** las instrucciones de la arquitectura origen sobre la de destino. Ejemplo clásico: la **JVM** ejecuta el mismo *bytecode* Java en cualquier plataforma que tenga una JVM.
 
-🧠 La portabilidad la da la VM, **no** el binario. (Rosetta 2 de Apple traduce x86→ARM con el mismo principio.)`,
+> [!nota]
+> La portabilidad la da la VM, **no** el binario. (Rosetta 2 de Apple traduce x86→ARM con el mismo principio.)`,
       pista: String.raw`No directamente: hace falta una VM/emulador que traduzca la ISA.`,
       tags: ["virtualizacion", "compatibilidad", "isa", "jvm"],
       fuente: ["arquitectura-de-computadores/repasos/repaso-examen-modulos-08-12.html","arquitectura-de-computadores/repasos/respuestas-examen-modulos-08-12.md"],
@@ -375,7 +397,8 @@ Cálculo por regla de tres:
 $$\text{operaciones/s} = \frac{\text{frecuencia (ciclos/s)}}{\text{ciclos por operación (CPI)}}$$
 $$= \frac{4 \times 10^9\ \text{ciclos/s}}{4\ \text{ciclos/suma}} = 10^9 = 1.000.000.000\ \text{sumas/segundo}$$
 
-🧠 Es la base del **IPC**: acá 1 suma = 4 ciclos → IPC 0,25; con el pipeline lleno = 1 ciclo → IPC 1. La frecuencia la genera el **oscilador de cristal** de la placa.`,
+> [!nota]
+> Es la base del **IPC**: acá 1 suma = 4 ciclos → IPC 0,25; con el pipeline lleno = 1 ciclo → IPC 1. La frecuencia la genera el **oscilador de cristal** de la placa.`,
       pista: String.raw`Hz = 1 ciclo/s. ops/s = frecuencia ÷ ciclos por operación.`,
       tags: ["hertz", "frecuencia", "cpi", "rendimiento"],
       fuente: ["arquitectura-de-computadores/repasos/repaso-examen-modulos-08-12.html","arquitectura-de-computadores/repasos/respuestas-examen-modulos-08-12.md"],

@@ -7,11 +7,12 @@
      Si no hay red, cae al cache (offline sigue funcionando).
    - /vendor/ (KaTeX, inmutable) → CACHE-FIRST (rápido y offline).
    Bump CACHE cuando cambie la lista CORE o esta lógica. */
-var CACHE = "flashcards-v11";
+var CACHE = "flashcards-v12";
 var CORE = [
   ".",
   "index.html",
   "app.js",
+  "theme.css",
   "manifest.webmanifest",
   "icons/icon.svg",
   "vendor/katex/katex.min.css",

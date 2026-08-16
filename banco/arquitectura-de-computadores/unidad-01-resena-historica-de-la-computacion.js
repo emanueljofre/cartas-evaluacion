@@ -1,6 +1,8 @@
 /* Mazo — Arquitectura de Computadores · Unidad 01 · Reseña histórica de la computación
    Fuentes: resumen.md + parcial-2026-1.md + preguntas-anunciadas + cheatsheet + apunte + transcripción 2026-06-01.
-   Campos de contenido SIEMPRE en String.raw. Alcance: FINAL (incluye el cierre — cuántica, Frontier, GPU/IA). */
+   Campos de contenido SIEMPRE en String.raw. Alcance: FINAL (incluye el cierre — cuántica, Frontier, GPU/IA).
+   Bloques del sistema «Manual»: `> [!prof|trampa|vale|exam|nota|fx] tag`.
+   Nada de emoji como identificador de bloque (ver card-schema.md § Bloques). */
 FLASHCARDS.deck({
   materia: "arquitectura-de-computadores",
   unidad: "01-resena-historica-de-la-computacion",
@@ -40,7 +42,8 @@ En una PC, el bus de sistema es físicamente la **placa madre**.`,
       pregunta: String.raw`¿Cuáles son los componentes internos del **CPU** (no del computador)?`,
       respuesta: String.raw`**Unidad de Control (UC)** + **Unidad Aritmético-Lógica (UAL/ALU)** + **registros** + **bus / interconexión interno**.
 
-⚠️ No confundir con la estructura del **computador** completo (microprocesador + memoria principal + E/S + bus de sistema).`,
+> [!trampa]
+> No confundir con la estructura del **computador** completo (microprocesador + memoria principal + E/S + bus de sistema).`,
     },
     {
       id: "arq-u01-004",
@@ -143,7 +146,8 @@ En una PC, el bus de sistema es físicamente la **placa madre**.`,
       pregunta: String.raw`¿Qué característica principal presenta **la memoria** en la arquitectura **Von Neumann**?`,
       respuesta: String.raw`**Datos e instrucciones** se guardan en el **mismo espacio de direcciones** de memoria y se acceden por el **mismo bus**.
 
-⚠️ Respuesta incompleta = no suma (corrección de parcial real, 2026-05-11). No alcanza con "guarda el programa": hay que decir que **comparte el espacio de datos e instrucciones**.`,
+> [!vale]
+> Respuesta incompleta = no suma (corrección de parcial real, 2026-05-11). No alcanza con "guarda el programa": hay que decir que **comparte el espacio de datos e instrucciones**.`,
     },
     {
       id: "arq-u01-013",
@@ -356,7 +360,8 @@ En el examen escrito usá siempre los términos **formales**.`,
       pregunta: String.raw`¿Qué rol cumplen las **GPU** en la IA actual, según el cierre del apunte? *(entra al final)*`,
       respuesta: String.raw`Modelos como **ChatGPT (OpenAI)** y **Gemini (Google/Microsoft)** se entrenan con grandes **clusters de GPUs en paralelo** (Nvidia, AMD). La **GPU** tiene **procesamiento paralelo muy superior** a la CPU → se volvió el **coprocesador** de las computadoras de alto rendimiento.
 
-🎯 Es "nuevas tecnologías": no entraba al parcial, **sí entra al final**.`,
+> [!exam] Entra al final
+> Es "nuevas tecnologías": no entraba al parcial, **sí entra al final**.`,
     },
     {
       id: "arq-u01-031",
@@ -367,7 +372,8 @@ En el examen escrito usá siempre los términos **formales**.`,
       pregunta: String.raw`¿Qué es el **IBM Q System ONE** y por qué importa para el **final**?`,
       respuesta: String.raw`El **primer ordenador cuántico para uso comercial**, presentado por **IBM en 2019**, de **20 qubits**. Las computadoras cuánticas resuelven **problemas específicos** procesando información **"billones de veces más rápido"** que una convencional.
 
-🎯 Cierre del apunte → **entra al final** (no entraba al parcial). El profe avisó que pregunta "la última parte del apunte".`,
+> [!exam] Entra al final
+> Cierre del apunte → **entra al final** (no entraba al parcial). El profe avisó que pregunta "la última parte del apunte".`,
     },
     {
       id: "arq-u01-032",

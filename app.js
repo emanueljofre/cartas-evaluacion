@@ -206,13 +206,40 @@
   }
 
   // ---------- Render markdown-lite + KaTeX ----------
-  var T_OPEN = "", T_CLOSE = "";
+  var T_OPEN = "", T_CLOSE = "", Q_MARK = "";
   function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
   function katexTo(expr, display) {
     if (!window.katex) return esc(expr);
     try { return katex.renderToString(expr, { displayMode: display, throwOnError: false }); }
     catch (e) { return esc(expr); }
   }
+  // Gramática de bloques del sistema «Manual» (ver design-system.md de la skill
+  // cheatsheet). Sintaxis en la carta:  `> [!tipo] tag` + líneas `>` de cuerpo.
+  // Un tipo de conocimiento = una forma visual, y el label va SIEMPRE visible en
+  // texto: por eso esto reemplaza a los emoji pelados (⚠️ 📊 ⚡ 💬) que las cartas
+  // usaban como identificador de bloque.
+  // El `tag` por defecto es el vocabulario académico de este repo; el autor del mazo
+  // lo pisa escribiéndolo después del `[!tipo]`.
+  var CALLOUTS = {
+    nota: { cls: "nota", tag: "Nota" },                    // matiz, aclaración, alcance
+    warn: { cls: "nota warn", tag: "Ojo" },                // advertencia leve
+    trampa: { cls: "nota warn", tag: "Trampa" },           // error típico (mismo componente, otro label)
+    exam: { cls: "nota exam", tag: "Entra al parcial" },   // capa de examen: qué pesa
+    vale: { cls: "vale", tag: "Vale puntos" },             // rúbrica: cómo se corrige
+    prof: { cls: "prof", tag: "" },                        // voz autorizada (tag = atribución)
+    fx: { cls: "fx", tag: "" },                            // fórmula rotulada (tag = ftag)
+  };
+  function callout(kind, tag, inner) {
+    var c = kind && CALLOUTS[kind];
+    if (!c) return '<div class="bq">' + inner + "</div>";
+    var label = tag || c.tag;
+    // .prof cierra con la atribución, no la encabeza: sin fuente no hay cita.
+    if (kind === "prof") return '<div class="prof">' + inner + (label ? '<span class="src">' + label + "</span>" : "") + "</div>";
+    // .fx separa rótulo y cuerpo porque el cuerpo puede necesitar scroll propio.
+    if (kind === "fx") return '<div class="fx">' + (label ? '<span class="ftag">' + label + "</span>" : "") + '<div class="fx-b">' + inner + "</div></div>";
+    return '<div class="' + c.cls + '">' + (label ? '<span class="tag">' + label + "</span>" : "") + inner + "</div>";
+  }
+
   function renderContent(text) {
     if (text == null) return "";
     var store = [];
@@ -230,26 +257,52 @@
     t = t.replace(/\$([^\n$]+?)\$/g, function (m, e) { return stash(katexTo(e.trim(), false)); });
     // 4) código inline  `...`
     t = t.replace(/`([^`]+?)`/g, function (m, e) { return stash("<code>" + esc(e) + "</code>"); });
-    // 5) escapar el resto
+    // 5) marca de cita/callout: `>` al inicio de línea → carácter privado que sobrevive
+    //    a esc(). Va DESPUÉS de stashear código y matemática, así un `>` dentro de un
+    //    fence o de $a > b$ nunca se confunde con una cita.
+    t = t.replace(/^[ \t]*>[ \t]?/gm, Q_MARK);
+    // 6) escapar el resto
     t = esc(t);
-    // 6) negrita
+    // 7) énfasis: negrita primero, así los `*` que quedan son itálica
     t = t.replace(/\*\*([^*]+?)\*\*/g, "<strong>$1</strong>");
-    // 7) bloques de líneas: listas (- / 1.) y párrafos
-    var lines = t.split("\n"), out = [], list = null;
+    t = t.replace(/\*([^*\n]+?)\*/g, "<em>$1</em>");
+    // 8) verificación: ✓/✗ de la prosa toman el color del sistema (--ok / --danger)
+    t = t.replace(/[✓✔]/g, '<span class="ok">✓</span>').replace(/[✗✘]/g, '<span class="no">✗</span>');
+    // 9) bloques de líneas: callouts, listas (- / 1.) y párrafos
+    t = renderBlocks(t.split("\n"));
+    // 10) reinsertar tokens
+    t = t.replace(new RegExp(T_OPEN + "(\\d+)" + T_CLOSE, "g"), function (m, i) { return store[+i]; });
+    return t;
+  }
+
+  function renderBlocks(lines) {
+    var out = [], list = null, i = 0;
     function closeList() { if (list) { out.push("<" + list.tag + ">" + list.items.join("") + "</" + list.tag + ">"); list = null; } }
-    lines.forEach(function (ln) {
+    while (i < lines.length) {
+      var ln = lines[i];
+      if (ln.charAt(0) === Q_MARK) {
+        closeList();
+        var head = ln.slice(1), body = [], kind = null, tag = "";
+        var m = head.match(/^\[!([a-zA-Z]+)\][ \t]*(.*)$/);
+        // `[!tipo]` desconocido no es un callout: la línea vuelve al cuerpo tal cual,
+        // así un typo se ve en pantalla en vez de tragarse el contenido.
+        if (m && CALLOUTS[m[1].toLowerCase()]) { kind = m[1].toLowerCase(); tag = m[2].trim(); }
+        else { body.push(head); }
+        i++;
+        while (i < lines.length && lines[i].charAt(0) === Q_MARK) { body.push(lines[i].slice(1)); i++; }
+        out.push(callout(kind, tag, renderBlocks(body)));
+        continue;
+      }
       var ul = ln.match(/^[ \t]*[-•]\s+(.*)$/);
       var ol = ln.match(/^[ \t]*\d+[.)]\s+(.*)$/);
       if (ul) { if (!list || list.tag !== "ul") { closeList(); list = { tag: "ul", items: [] }; } list.items.push("<li>" + ul[1] + "</li>"); }
       else if (ol) { if (!list || list.tag !== "ol") { closeList(); list = { tag: "ol", items: [] }; } list.items.push("<li>" + ol[1] + "</li>"); }
       else if (ln.trim() === "") { closeList(); out.push("<br>"); }
       else { closeList(); out.push(ln + "<br>"); }
-    });
+      i++;
+    }
     closeList();
-    t = out.join("").replace(/(<br>)+$/, "");
-    // 8) reinsertar tokens
-    t = t.replace(new RegExp(T_OPEN + "(\\d+)" + T_CLOSE, "g"), function (m, i) { return store[+i]; });
-    return t;
+    return out.join("").replace(/(<br>)+$/, "");
   }
 
   // ---------- UI: helpers ----------
@@ -512,7 +565,7 @@
       "</div>";
     card.appendChild(el(meta));
     card.appendChild(el('<div class="qlabel">Pregunta</div>'));
-    var q = el('<div class="content q"></div>'); q.innerHTML = renderContent(preguntaTxt); card.appendChild(q);
+    var q = el('<div class="content enun"></div>'); q.innerHTML = renderContent(preguntaTxt); card.appendChild(q);
 
     if (c.tipo === "opcion-multiple" && Array.isArray(c.opciones)) {
       card.appendChild(renderMC(c));
@@ -810,7 +863,7 @@
           var rh = el('<div class="resp-head"><span class="qlabel">Ejercicio en caja ' + b + '</span></div>');
           rh.appendChild(el('<span class="lvl-pill lvl-' + b + '">Nivel ' + variantLevel(c, b) + "/" + c.variantes.length + '</span>'));
           simView.appendChild(rh);
-          var qd = el('<div class="content q"></div>'); qd.innerHTML = renderContent(v ? v.pregunta : ""); simView.appendChild(qd);
+          var qd = el('<div class="content enun"></div>'); qd.innerHTML = renderContent(v ? v.pregunta : ""); simView.appendChild(qd);
           simView.appendChild(el('<div class="divider"></div>'));
           var ad = el('<div class="content answer"></div>'); ad.innerHTML = renderContent(v ? v.respuesta : ""); simView.appendChild(ad);
         } else {
@@ -834,7 +887,7 @@
           lb.appendChild(el('<div class="insp-lvl-h"><span class="lvl-pill lvl-' + (i + 1) + '">Nivel ' + (i + 1) + '</span> <span class="insp-lvl-meta">caja ' + (i + 1) + " · " + pool.length + " variante" + (pool.length === 1 ? "" : "s") + '</span></div>'));
           pool.forEach(function (v) {
             var inst = el('<div class="insp-inst"></div>');
-            var qd = el('<div class="content q"></div>'); qd.innerHTML = renderContent(v.pregunta || ""); inst.appendChild(qd);
+            var qd = el('<div class="content enun"></div>'); qd.innerHTML = renderContent(v.pregunta || ""); inst.appendChild(qd);
             var ad = el('<div class="content answer"></div>'); ad.innerHTML = renderContent(v.respuesta || ""); inst.appendChild(ad);
             lb.appendChild(inst);
           });
